@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Illia Brashkin
+# SPDX-License-Identifier: MIT
+---
+# yamllint disable rule:line-length
+name: commitlint
+'on':
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  commitlint:
+    timeout-minutes: 15
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: wagoid/commitlint-github-action@v6
+        with:
+          failOnWarnings: true
