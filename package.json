@@ -1,0 +1,55 @@
+{
+  "name": "veils",
+  "version": "0.0.0",
+  "description": "Veil Objects: they cache all reads until the first write",
+  "keywords": [
+    "caching",
+    "veil",
+    "sql",
+    "object-oriented-programming"
+  ],
+  "homepage": "https://github.com/illia-m-b/veils",
+  "bugs": {
+    "url": "https://github.com/illia-m-b/veils/issues",
+    "email": "contact.line009@passinbox.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com:illia-m-b/veils.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Illia Brashkin",
+    "email": "contact.line009@passinbox.com"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "onFail": "error"
+    },
+    "packageManager": {
+      "name": "npm",
+      "onFail": "error"
+    }
+  }
+}
