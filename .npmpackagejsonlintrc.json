@@ -27,18 +27,8 @@
     "files-type": "error",
     "name-format": "error",
     "version-format": "error",
-    "valid-values-license": [
-      "error",
-      [
-        "MIT"
-      ]
-    ],
-    "valid-values-type": [
-      "error",
-      [
-        "module"
-      ]
-    ],
+    "valid-values-license": ["error", ["MIT"]],
+    "valid-values-type": ["error", ["module"]],
     "prefer-no-dependencies": "error",
     "prefer-no-engineStrict": "error",
     "prefer-absolute-version-devDependencies": "error",
