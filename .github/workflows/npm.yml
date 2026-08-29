@@ -25,3 +25,4 @@ jobs:
       - run: npx tsc --noEmit
       - run: npm run format:code:check
       - run: npm run lint:ts
+      - run: npm run test
