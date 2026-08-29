@@ -4,3 +4,4 @@
  */
 
 export type { Policy } from './Policy.js';
+export { unpiercablePolicy } from './unpiercablePolicy.js';
