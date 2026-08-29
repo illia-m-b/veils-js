@@ -14,7 +14,15 @@ import tseslint from 'typescript-eslint';
 
 export default defineConfig([
   {
-    ignores: ['.github/**', 'coverage/**', 'dist/**', 'eslint.config.mjs', 'node_modules/**'],
+    ignores: [
+      '.github/**',
+      'coverage/**',
+      'dist/**',
+      'eslint.config.mjs',
+      'tsup.config.ts',
+      'vitest.config.ts',
+      'node_modules/**',
+    ],
   },
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
