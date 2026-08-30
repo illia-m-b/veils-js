@@ -67,6 +67,14 @@ export default defineConfig([
       'unicorn/no-empty-file': 'off',
       'unicorn/prevent-abbreviations': 'off',
     },
+    settings: {
+      'import-x/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: './tsconfig.json',
+        },
+      },
+    },
   },
   eslintConfigPrettier,
 ]);
