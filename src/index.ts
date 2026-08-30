@@ -4,6 +4,7 @@
  */
 
 export type { Policy } from './Policy.js';
+export { unpiercable } from './unpiercable.js';
 export { unpiercablePolicy } from './unpiercablePolicy.js';
 export type { VeilCache } from './VeilCache.js';
 export { veilPolicy } from './veilPolicy.js';
