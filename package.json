@@ -45,7 +45,7 @@
     "lint:pkg": "npmPkgJsonLint .",
     "lint:ts": "eslint --no-color --concurrency='auto' --exit-on-fatal-error .",
     "lint:ts:fix": "eslint --fix .",
-    "test": "vitest run --no-color --passWithNoTests --typecheck",
+    "test": "vitest run --no-color --typecheck",
     "test:cov": "vitest run --coverage",
     "test:watch": "vitest"
   },
