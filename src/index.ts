@@ -4,8 +4,10 @@
  */
 
 export { alterIn } from './alterIn.js';
+export { alterOut } from './alterOut.js';
 export type { Policy } from './Policy.js';
 export type { ShiftsIn } from './ShiftsIn.js';
+export type { ShiftsOut } from './ShiftsOut.js';
 export { unpiercable } from './unpiercable.js';
 export { unpiercablePolicy } from './unpiercablePolicy.js';
 export { veil } from './veil.js';
