@@ -3,7 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
+export { alterIn } from './alterIn.js';
 export type { Policy } from './Policy.js';
+export type { ShiftsIn } from './ShiftsIn.js';
 export { unpiercable } from './unpiercable.js';
 export { unpiercablePolicy } from './unpiercablePolicy.js';
 export { veil } from './veil.js';
