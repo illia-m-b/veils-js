@@ -16,8 +16,8 @@ test('returns cached value for a property', (): void => {
   const john: User = { name: 'John' };
   const cached = 'David';
   const cache: VeilCache<User> = { name: cached };
-  const veil = unpiercable(john, cache);
-  expect(veil.name).toBe(cached);
+  const covering: User = unpiercable(john, cache);
+  expect(covering.name).toBe(cached);
 });
 
 test('returns cached value as a callable function for a method', (): void => {
@@ -27,23 +27,23 @@ test('returns cached value as a callable function for a method', (): void => {
   const john: User = { name: (): string => 'John' };
   const cached = 'David';
   const cache: VeilCache<User> = { name: cached };
-  const veil = unpiercable(john, cache);
-  expect(veil.name()).toBe(cached);
+  const covering: User = unpiercable(john, cache);
+  expect(covering.name()).toBe(cached);
 });
 
-test('falls back to original object when property is not in cache', (): void => {
-  interface User {
-    age: () => number;
-    name: () => string;
+test('falls back to original object when there is no corresponding cache', (): void => {
+  class DumbUser {
+    constructor(public readonly name: string) {}
+    greeting(): string {
+      return `Hello, ${this.name}!`;
+    }
   }
-  const age = 30;
-  const john: User = {
-    age: (): number => age,
-    name: (): string => 'John',
-  };
-  const cache: VeilCache<User> = { name: 'David' };
-  const veil = unpiercable(john, cache);
-  expect(veil.age()).toBe(age);
+  const name = 'John';
+  const greeting = `Hello, ${name}!`;
+  const john = new DumbUser(name);
+  const cache: VeilCache<DumbUser> = {};
+  const covering: DumbUser = unpiercable(john, cache);
+  expect(covering.greeting()).toBe(greeting);
 });
 
 test('retains cached value after accessing an uncached property', (): void => {
@@ -58,7 +58,7 @@ test('retains cached value after accessing an uncached property', (): void => {
   };
   const cached = 0;
   const cache: VeilCache<Post> = { length: cached };
-  const veil = unpiercable(post, cache);
-  veil.content();
-  expect(veil.length()).toBe(cached);
+  const covering: Post = unpiercable(post, cache);
+  covering.content();
+  expect(covering.length()).toBe(cached);
 });

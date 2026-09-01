@@ -16,7 +16,7 @@ test('returns cached value for a property', (): void => {
   const john: User = { name: 'John' };
   const cached = 'David';
   const cache: VeilCache<User> = { name: cached };
-  const covering = veil(john, cache);
+  const covering: User = veil(john, cache);
   expect(covering.name).toBe(cached);
 });
 
@@ -27,37 +27,36 @@ test('returns cached value as a callable function for a method', (): void => {
   const john: User = { name: (): string => 'John' };
   const cached = 'David';
   const cache: VeilCache<User> = { name: cached };
-  const covering = veil(john, cache);
+  const covering: User = veil(john, cache);
   expect(covering.name()).toBe(cached);
 });
 
-test('falls back to original object when property is not in cache', (): void => {
-  interface User {
-    age: () => number;
-    name: () => string;
+test('falls back to original object when there is no corresponding cache', (): void => {
+  class DumbUser {
+    constructor(public readonly name: string) {}
+    greeting(): string {
+      return `Hello, ${this.name}!`;
+    }
   }
-  const age = 30;
-  const john: User = {
-    age: (): number => age,
-    name: (): string => 'John',
-  };
-  const cache: VeilCache<User> = { name: 'David' };
-  const covering = veil(john, cache);
-  expect(covering.age()).toBe(age);
+  const name = 'John';
+  const original = `Hello, ${name}!`;
+  const john = new DumbUser(name);
+  const cache: VeilCache<DumbUser> = { name: 'David' };
+  const covering: DumbUser = veil(john, cache);
+  expect(covering.greeting()).toBe(original);
 });
 
 test('ignores cache entirely after the veil is pierced', (): void => {
-  interface User {
-    age: () => number;
-    name: () => string;
+  class DumbUser {
+    constructor(public readonly name: string) {}
+    greeting(): string {
+      return `Hello, ${this.name}!`;
+    }
   }
-  const name = 'John';
-  const john: User = {
-    age: (): number => 30,
-    name: (): string => name,
-  };
-  const cache: VeilCache<User> = { name: 'David' };
-  const covering = veil(john, cache);
-  covering.age();
-  expect(covering.name()).toBe(name);
+  const original = 'John';
+  const john = new DumbUser(original);
+  const cache: VeilCache<DumbUser> = { name: 'David' };
+  const covering: DumbUser = veil(john, cache);
+  covering.greeting();
+  expect(covering.name).toBe(original);
 });

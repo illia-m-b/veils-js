@@ -21,24 +21,32 @@ test('returns original value for a property', (): void => {
 });
 
 test('calls original method when shift is not provided', (): void => {
-  interface User {
-    age: () => number;
+  class DumbUser {
+    constructor(public readonly name: string) {}
+    greeting(): string {
+      return `Hello, ${this.name}!`;
+    }
   }
-  const age = 30;
-  const dude: User = { age: (): number => age };
-  const shifts: ShiftsIn<User> = {};
-  const covering: User = alterIn(dude, shifts);
-  expect(covering.age()).toBe(age);
+  const name = 'John';
+  const greeting = `Hello, ${name}!`;
+  const john = new DumbUser(name);
+  const shifts: ShiftsIn<DumbUser> = {};
+  const covering: DumbUser = alterIn(john, shifts);
+  expect(covering.greeting()).toBe(greeting);
 });
 
 test('modifies input arguments using the provided shift', (): void => {
-  interface Maths {
-    square: (x: number) => number;
+  class DumbMaths {
+    constructor(public readonly x: number) {}
+    sum(y: number): number {
+      return this.x + y;
+    }
   }
-  const maths: Maths = { square: (x: number): number => x * x };
-  const shifts: ShiftsIn<Maths> = { square: (x: number): [number] => [x * 2] };
-  const covering: Maths = alterIn(maths, shifts);
-  const original = 10;
-  const squareOfDouble = (2 * original) ** 2;
-  expect(covering.square(original)).toBe(squareOfDouble);
+  const x = 10;
+  const y = 20;
+  const xPlusDoubleY = x + y * 2;
+  const maths = new DumbMaths(x);
+  const shifts: ShiftsIn<DumbMaths> = { sum: (y: number): [number] => [y * 2] };
+  const covering: DumbMaths = alterIn(maths, shifts);
+  expect(covering.sum(y)).toBe(xPlusDoubleY);
 });
