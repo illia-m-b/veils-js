@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { test } from 'vitest';
+import { expect, test } from 'vitest';
 
 import type { Policy } from '../src/Policy.js';
 
@@ -16,4 +16,12 @@ test.for([
   const policy: Policy = unpiercablePolicy();
   const property = Symbol('property');
   expect(policy.verdict(property, isInCache)).toBe(expected);
+});
+
+test('ignores mutation and returns true for cached property', (): void => {
+  const policy: Policy = unpiercablePolicy();
+  const property = Symbol('property');
+  const isInCache = true;
+  policy.onMutate(property);
+  expect(policy.verdict(property, isInCache)).toBe(true);
 });

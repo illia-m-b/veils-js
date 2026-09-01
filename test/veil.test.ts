@@ -60,3 +60,15 @@ test('ignores cache entirely after the veil is pierced', (): void => {
   covering.greeting();
   expect(covering.name).toBe(original);
 });
+
+test('pierces the veil and returns mutated value after property assignment', (): void => {
+  interface User {
+    name: string;
+  }
+  const john: User = { name: 'John' };
+  const cache: VeilCache<User> = { name: 'Jack' };
+  const covering: User = veil(john, cache);
+  const mutated = 'James';
+  covering.name = mutated;
+  expect(covering.name).toBe(mutated);
+});
