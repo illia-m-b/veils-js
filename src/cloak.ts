@@ -9,8 +9,6 @@ import type { VeilCache } from './VeilCache.js';
 /**
  * Internal proxy engine that intercepts property and method access.
  *
- * @internal
- *
  * @param object The original target object to be veiled.
  * @param cache The partial object containing pre-calculated values.
  * @param policy The caching rules engine to determine if cache should be used.
