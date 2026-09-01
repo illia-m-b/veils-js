@@ -62,3 +62,27 @@ test('retains cached value after accessing an uncached property', (): void => {
   covering.content();
   expect(covering.length()).toBe(cached);
 });
+
+test('retains cached value after property mutation', (): void => {
+  interface User {
+    name: string;
+  }
+  const john: User = { name: 'John' };
+  const cached = 'Jack';
+  const cache: VeilCache<User> = { name: cached };
+  const covering: User = unpiercable(john, cache);
+  covering.name = 'James';
+  expect(covering.name).toBe(cached);
+});
+
+test('mutates the original object upon property assignment', (): void => {
+  interface User {
+    name: string;
+  }
+  const john: User = { name: 'John' };
+  const cache: VeilCache<User> = { name: 'Jack' };
+  const covering: User = unpiercable(john, cache);
+  const mutated = 'James';
+  covering.name = mutated;
+  expect(john.name).toBe(mutated);
+});
