@@ -13,6 +13,10 @@ import type { Policy } from './Policy.js';
 export const veilPolicy = (): Policy => {
   let isPierced = false;
   return {
+    onMutate: (_property: string | symbol): void => {
+      isPierced = true;
+    },
+
     verdict: (_property: string | symbol, isInCache: boolean): boolean => {
       if (!isInCache) {
         isPierced = true;

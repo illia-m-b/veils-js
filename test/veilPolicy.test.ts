@@ -32,3 +32,12 @@ test('rejects access to cached property after veil was pierced', (): void => {
   const isCached = true;
   expect(policy.verdict(cachedProperty, isCached)).toBe(false);
 });
+
+test('pierces the veil when a property is mutated', (): void => {
+  const policy: Policy = veilPolicy();
+  const property = Symbol('property');
+  const mutated = Symbol('mutated-property');
+  const isInCache = true;
+  policy.onMutate(mutated);
+  expect(policy.verdict(property, isInCache)).toBe(false);
+});
