@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Illia Brashkin
+# SPDX-License-Identifier: MIT
+---
+pre-commit:
+  commands:
+    lint-ts-fix:
+      glob: '*.{js,ts,cjs,mjs}'
+      run: npx eslint --fix {staged_files}
+      stage_fixed: true
+    format-code:
+      glob: '*.{js,ts,cjs,mjs,json}'
+      run: npx prettier --write {staged_files}
+      stage_fixed: true
+    format-pkg:
+      glob: 'package.json'
+      run: npx sort-package-json {staged_files}
+      stage_fixed: true
+pre-push:
+  parallel: true
+  commands:
+    lint-pkg:
+      run: npm run lint:pkg
+    format-pkg-check:
+      run: npm run format:pkg:check
+    type-check:
+      run: npm run types:check
+    format-code-check:
+      run: npm run format:code:check
+    lint-ts:
+      run: npm run lint:ts
+    test:
+      run: npm run test
