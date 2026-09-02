@@ -14,8 +14,8 @@ import type { ShiftsOut } from './ShiftsOut.js';
  * execution completes first, and the resulting value is then passed through the
  * transformer before being returned to the caller.
  *
- * @param object The original target object to wrap.
- * @param shifts A map of optional return value transformer functions.
+ * @param object - The original target object to wrap.
+ * @param shifts - A map of optional return value transformer functions.
  *
  * @returns A proxied version of the target object with the output modifiers
  *   applied.

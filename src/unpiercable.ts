@@ -16,8 +16,8 @@ import { unpiercablePolicy } from './unpiercablePolicy.js';
  * properties that are missing from the cache, this proxy will always return a
  * cached value for subsequent accesses if the cache contains it.
  *
- * @param object The original target object to wrap.
- * @param cache A partial object containing pre-calculated values or method
+ * @param object - The original target object to wrap.
+ * @param cache - A partial object containing pre-calculated values or method
  *   returns.
  *
  * @returns A proxied version of the target object with the unpiercable caching

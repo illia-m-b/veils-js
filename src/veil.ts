@@ -18,8 +18,8 @@ import { veilPolicy } from './veilPolicy.js';
  *
  * For a version that never pierces, see {@link unpiercable}.
  *
- * @param object The original target object to wrap.
- * @param cache A partial object containing pre-calculated values or method
+ * @param object - The original target object to wrap.
+ * @param cache - A partial object containing pre-calculated values or method
  *   returns.
  *
  * @returns A proxied version of the target object with the standard piercing

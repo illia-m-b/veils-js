@@ -15,8 +15,8 @@ import type { ShiftsIn } from './ShiftsIn.js';
  * arguments are then transparently forwarded to the original object. Any
  * methods or properties without defined shifts are passed through unmodified.
  *
- * @param object The original target object to wrap.
- * @param shifts A map of optional argument transformer functions.
+ * @param object - The original target object to wrap.
+ * @param shifts - A map of optional argument transformer functions.
  *
  * @returns A proxied version of the target object with the argument modifiers
  *   applied.
