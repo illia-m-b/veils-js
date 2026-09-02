@@ -27,7 +27,7 @@ export const alterOut = <T extends object>(object: T, shifts: NoInfer<ShiftsOut<
       const shift = shifts[property as keyof T] as (argument: unknown) => unknown;
       if (typeof original === 'function') {
         return (...parameters: unknown[]): unknown =>
-          shift(Reflect.apply(original, target, parameters));
+          shift(Reflect.apply(original, receiver, parameters));
       }
       return shift(original);
     },

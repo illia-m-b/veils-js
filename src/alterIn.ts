@@ -27,7 +27,7 @@ export const alterIn = <T extends object>(object: T, shifts: NoInfer<ShiftsIn<T>
       return (..._arguments: unknown[]): unknown =>
         Reflect.apply(
           original,
-          target,
+          receiver,
           (shifts[property as keyof T] as (..._arguments: unknown[]) => unknown[])(..._arguments),
         );
     },

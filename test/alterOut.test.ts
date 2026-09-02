@@ -49,3 +49,29 @@ test('alters the value of the original property with the given transformer funct
   const covering: Maths = alterOut(maths, shifts);
   expect(covering.value).toBe(value * 2);
 });
+
+test('respects proxied methods', (): void => {
+  class DumbUser {
+    constructor(
+      public readonly firstName: string,
+      public readonly lastName: string,
+    ) {}
+    fullName(): string {
+      return `${this.firstName} ${this.lastName}`;
+    }
+    greeting(): string {
+      return `Hello, ${this.fullName()}!`;
+    }
+  }
+  const pollutedFirstName = '   \r\n  \t John';
+  const pollutedLastName = 'Smith   \r\n  \t ';
+  const pollutedFullName = `${pollutedFirstName} ${pollutedLastName}`;
+  const transformed = `Hello, ${pollutedFullName.trim()}!`.toUpperCase();
+  const john = new DumbUser(pollutedFirstName, pollutedLastName);
+  const shifts: ShiftsOut<DumbUser> = {
+    fullName: (n: string): string => n.trim(),
+    greeting: (g: string): string => g.toUpperCase(),
+  };
+  const covering: DumbUser = alterOut(john, shifts);
+  expect(covering.greeting()).toBe(transformed);
+});

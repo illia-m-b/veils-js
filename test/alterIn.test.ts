@@ -50,3 +50,29 @@ test('modifies input arguments using the provided shift', (): void => {
   const covering: DumbMaths = alterIn(maths, shifts);
   expect(covering.sum(y)).toBe(xPlusDoubleY);
 });
+
+test('respects proxied methods', (): void => {
+  class DumbUser {
+    constructor(public readonly name: string) {}
+    greeting(stranger: string): string {
+      return `Hello, ${stranger}`;
+    }
+    meeting(phrase: string, stranger: string): string {
+      return `${this.greeting(stranger)}. ${phrase} is ${this.name}.`;
+    }
+  }
+  const name = 'John';
+  const stranger = '\r\n \t  jack    ';
+  const phrase = 'my name';
+  const transformed = `Hello, ${stranger.trim()}. ${phrase.toUpperCase()} is ${name}.`;
+  const john = new DumbUser(name);
+  const shifts: ShiftsIn<DumbUser> = {
+    greeting: (stranger: string): [string] => [stranger.trim()],
+    meeting: (phrase: string, stranger: string): [string, string] => [
+      phrase.toUpperCase(),
+      stranger,
+    ],
+  };
+  const covering: DumbUser = alterIn(john, shifts);
+  expect(covering.meeting(phrase, stranger)).toBe(transformed);
+});
