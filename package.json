@@ -47,7 +47,8 @@
     "lint:ts:fix": "eslint --fix .",
     "test": "vitest run --no-color --typecheck",
     "test:cov": "vitest run --coverage",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "types:check": "tsc --noEmit"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

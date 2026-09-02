@@ -5,15 +5,15 @@ pre-commit:
   commands:
     lint-ts-fix:
       glob: '*.{js,ts,cjs,mjs}'
-      run: npx --no eslint --fix {staged_files}
+      run: npx eslint --fix {staged_files}
       stage_fixed: true
     format-code:
       glob: '*.{js,ts,cjs,mjs,json}'
-      run: npx --no prettier --write {staged_files}
+      run: npx prettier --write {staged_files}
       stage_fixed: true
     format-pkg:
       glob: 'package.json'
-      run: npx --no sort-package-json {staged_files}
+      run: npx sort-package-json {staged_files}
       stage_fixed: true
 pre-push:
   parallel: true
@@ -23,7 +23,7 @@ pre-push:
     format-pkg-check:
       run: npm run format:pkg:check
     type-check:
-      run: npx --no tsc --noEmit
+      run: npm run types:check
     format-code-check:
       run: npm run format:code:check
     lint-ts:
