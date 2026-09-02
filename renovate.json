@@ -7,7 +7,6 @@
     ":approveMajorUpdates",
     ":timezone(Europe/Kyiv)"
   ],
-  "commitMessage": "{{{commitMessagePrefix}}} {{{commitMessageAction}}} {{{commitMessageTopic}}} {{{commitMessageExtra}}} {{{commitMessageSuffix}}} (#54)",
   "packageRules": [
     {
       "description": "Grouping and automerge of patch/minor devDependencies with a 3-day quarantine",
