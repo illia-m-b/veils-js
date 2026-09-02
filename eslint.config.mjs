@@ -10,6 +10,7 @@ import importX from 'eslint-plugin-import-x';
 import perfectionist from 'eslint-plugin-perfectionist';
 import unicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
+import tsdoc from 'eslint-plugin-tsdoc';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig([
@@ -44,6 +45,9 @@ export default defineConfig([
     linterOptions: {
       reportUnusedDisableDirectives: 'error',
     },
+    plugins: {
+      tsdoc,
+    },
     rules: {
       '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }],
       '@typescript-eslint/no-explicit-any': 'error',
@@ -60,6 +64,7 @@ export default defineConfig([
         },
       ],
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
+      'tsdoc/syntax': 'error',
       'import-x/no-cycle': 'error',
       'import-x/no-unused-modules': 'off',
       'no-console': 'error',

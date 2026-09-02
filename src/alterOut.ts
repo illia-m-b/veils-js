@@ -8,14 +8,17 @@ import type { ShiftsOut } from './ShiftsOut.js';
 /**
  * Decorates the given object intercepting and modifying returned values.
  *
- * This decorator allows you to define transformer functions (shifts) for specific properties or methods.
- * For decorated properties, the value is passed through the transformer upon access.
- * For decorated methods, the original execution completes first, and the resulting
- * value is then passed through the transformer before being returned to the caller.
+ * This decorator allows you to define transformer functions (shifts) for
+ * specific properties or methods. For decorated properties, the value is passed
+ * through the transformer upon access. For decorated methods, the original
+ * execution completes first, and the resulting value is then passed through the
+ * transformer before being returned to the caller.
  *
- * @param object The original target object to wrap.
- * @param shifts A map of optional return value transformer functions.
- * @returns A proxied version of the target object with the output modifiers applied.
+ * @param object - The original target object to wrap.
+ * @param shifts - A map of optional return value transformer functions.
+ *
+ * @returns A proxied version of the target object with the output modifiers
+ *   applied.
  */
 export const alterOut = <T extends object>(object: T, shifts: NoInfer<ShiftsOut<T>>): T =>
   new Proxy(object, {

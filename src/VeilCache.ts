@@ -4,12 +4,12 @@
  */
 
 /**
- * Represents the cache for a veil object.
- * The cache keys match the names of the target object's properties or methods.
- * The cache values are either the property types themselves or the return types of the methods.
+ * Represents the cache for a veil object. The cache keys match the names of the
+ * target object's properties or methods. The cache values are either the
+ * property types themselves or the return types of the methods.
  *
- * Note: This is not memoization; method arguments are completely ignored.
- * The cache is entirely optional and can technically be empty.
+ * Note: This is not memoization; method arguments are completely ignored. The
+ * cache is entirely optional and can technically be empty.
  */
 export type VeilCache<T extends object> = Partial<{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

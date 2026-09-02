@@ -4,15 +4,17 @@
  */
 
 /**
- * Represents a map of value transformer functions (shifts) for the target object's properties or methods.
- * The keys match the names of the properties or methods on the target object.
+ * Represents a map of value transformer functions (shifts) for the target
+ * object's properties or methods. The keys match the names of the properties or
+ * methods on the target object.
  *
- * For methods, the transformer function accepts the exact return type of the original method
- * and must return a modified value of the same type. For properties, it accepts the property's
- * value and returns a modified value of the same type.
+ * For methods, the transformer function accepts the exact return type of the
+ * original method and must return a modified value of the same type. For
+ * properties, it accepts the property's value and returns a modified value of
+ * the same type.
  *
- * Note: All transformers are strictly optional; you only need to provide them for
- * the members you actually want to modify.
+ * Note: All transformers are strictly optional; you only need to provide them
+ * for the members you actually want to modify.
  */
 export type ShiftsOut<T extends object> = Partial<{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
