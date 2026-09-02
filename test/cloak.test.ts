@@ -11,9 +11,9 @@ import type { VeilCache } from '../src/VeilCache.js';
 import { cloak } from '../src/cloak.js';
 
 /**
- * A dumb policy that allows accessing the cached value exactly two times.
- * Any subsequent access bypasses the cache, unless a property is mutated,
- * which resets the access counter.
+ * A dumb policy that allows accessing the cached value exactly two times. Any
+ * subsequent access bypasses the cache, unless a property is mutated, which
+ * resets the access counter.
  */
 const twoTimesPolicy = (): Policy => {
   let count = 0;

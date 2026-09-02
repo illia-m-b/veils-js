@@ -12,9 +12,11 @@ import type { VeilCache } from './VeilCache.js';
  * @param object The original target object to be veiled.
  * @param cache The partial object containing pre-calculated values.
  * @param policy The caching rules engine to determine if cache should be used.
+ *
  * @returns A `Proxy` that serves values from the cache if the policy allows,
- *          preserving the distinction between static properties and callable methods.
- *          If the policy denies cache usage, it falls back to the actual target using `Reflect`.
+ *   preserving the distinction between static properties and callable methods.
+ *   If the policy denies cache usage, it falls back to the actual target using
+ *   `Reflect`.
  */
 export const cloak = <T extends object>(
   object: T,
