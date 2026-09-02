@@ -10,8 +10,8 @@
  */
 export interface Policy {
   /**
-  Called when a property on the target object is mutated (set).
-  */
+   * Called when a property on the target object is mutated (set).
+   */
   onMutate(property: string | symbol): void;
 
   /**
