@@ -44,13 +44,13 @@
   "scripts": {
     "build": "tsup",
     "format:code": "prettier -w .",
-    "format:code:check": "prettier --no-color -c .",
+    "format:code:check": "prettier -c .",
     "format:pkg": "sort-package-json",
     "format:pkg:check": "sort-package-json -c",
     "lint:pkg": "npmPkgJsonLint .",
-    "lint:ts": "eslint --no-color --concurrency='auto' --exit-on-fatal-error .",
+    "lint:ts": "eslint --concurrency='auto' --exit-on-fatal-error .",
     "lint:ts:fix": "eslint --fix .",
-    "test": "vitest run --no-color --typecheck",
+    "test": "vitest run --typecheck",
     "test:cov": "vitest run --coverage",
     "test:watch": "vitest",
     "types:check": "tsc --noEmit"
