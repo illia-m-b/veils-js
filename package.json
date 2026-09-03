@@ -78,17 +78,17 @@
     "vitest": "4.1.11"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": "22.x || 24.x || >=26.0.0"
   },
   "devEngines": {
     "runtime": {
       "name": "node",
       "onFail": "error",
-      "version": ">=22.0.0"
+      "version": "22.x || 24.x || >=26.0.0"
     },
     "packageManager": {
       "name": "npm",
-      "version": ">=10.0.0",
+      "version": ">=10.9.0",
       "onFail": "error"
     }
   },
@@ -96,5 +96,6 @@
     "unrs-resolver@1.12.2": true,
     "esbuild@0.27.7": true,
     "lefthook@2.1.12": true
-  }
+  },
+  "engine-strict": true
 }
