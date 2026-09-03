@@ -7,12 +7,23 @@ import type { Policy } from './Policy.js';
 import type { VeilCache } from './VeilCache.js';
 
 /**
- * Internal proxy engine that intercepts property and method access.
+ * Creates a veiled wrapper around the given object using a custom caching
+ * policy.
  *
- * @param object - The original target object to be veiled.
- * @param cache - The partial object containing pre-calculated values.
- * @param policy - The caching rules engine to determine if cache should be
- *   used.
+ * This function serves as the foundation for creating custom veil decorators
+ * (such as {@link veil} or {@link unpiercable}). It intercepts property and
+ * method access, querying the provided {@link Policy} to determine whether to
+ * serve pre-calculated values from the cache or delegate to the original
+ * object. When a method is cached, it returns a callable function that resolves
+ * to the cached value, preserving the callable interface. Any property
+ * mutations notify the policy via its `onMutate` callback before modifying the
+ * target object.
+ *
+ * @param object - The original target object to wrap.
+ * @param cache - A partial object containing pre-calculated values or method
+ *   returns.
+ * @param policy - The caching policy that determines whether the cache should
+ *   be used.
  *
  * @returns A `Proxy` that serves values from the cache if the policy allows,
  *   preserving the distinction between static properties and callable methods.
@@ -33,7 +44,6 @@ export const cloak = <T extends object>(
       }
       return original;
     },
-
     set(target: T, property: string | symbol, newValue: unknown, receiver: unknown): boolean {
       policy.onMutate(property);
       return Reflect.set(target, property, newValue, receiver);
