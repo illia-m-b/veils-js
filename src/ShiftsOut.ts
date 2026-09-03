@@ -17,8 +17,7 @@
  * for the members you actually want to modify.
  */
 export type ShiftsOut<T extends object> = Partial<{
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [K in keyof T]: T[K] extends (..._arguments: any[]) => infer U
+  [K in keyof T]: T[K] extends (..._arguments: never[]) => infer U
     ? (_argument: U) => U
     : (_argument: T[K]) => T[K];
 }>;

@@ -17,6 +17,7 @@
  * you only need to provide them for the methods you actually want to modify.
  */
 export type ShiftsIn<T extends object> = Partial<{
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [K in keyof T]: T[K] extends (...arguments_: infer U) => any ? (...arguments_: U) => U : never;
+  [K in keyof T]: T[K] extends (...arguments_: infer U) => unknown
+    ? (...arguments_: U) => U
+    : never;
 }>;

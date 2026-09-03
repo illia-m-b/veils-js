@@ -12,6 +12,5 @@
  * cache is entirely optional and can technically be empty.
  */
 export type VeilCache<T extends object> = Partial<{
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [K in keyof T]: T[K] extends (..._arguments: any[]) => any ? ReturnType<T[K]> : T[K];
+  [K in keyof T]: T[K] extends (..._arguments: never[]) => unknown ? ReturnType<T[K]> : T[K];
 }>;
