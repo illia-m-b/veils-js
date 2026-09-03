@@ -9,7 +9,7 @@ import type { Policy } from '../src/Policy.js';
 
 import { unpiercablePolicy } from '../src/unpiercablePolicy.js';
 
-test.for([
+test.for<[boolean, boolean]>([
   [true, true],
   [false, false],
 ])('returns %s when isInCache is %s', ([expected, isInCache], { expect }): void => {
