@@ -4,6 +4,3 @@
 node_modules/
 dist/
 coverage/
-*.md
-*.yml
-*.yaml
