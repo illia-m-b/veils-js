@@ -1,19 +1,21 @@
 # SPDX-FileCopyrightText: Copyright (c) 2026 Illia Brashkin
 # SPDX-License-Identifier: MIT
 ---
+# yamllint disable rule:line-length
+glob_matcher: doublestar
 pre-commit:
   commands:
     lint-ts-fix:
-      glob: '*.{js,ts,cjs,mjs}'
-      run: npx eslint --fix {staged_files}
-      stage_fixed: true
-    format-code:
-      glob: '*.{js,ts,cjs,mjs,json,md,yml,yaml}'
-      run: npx prettier --write {staged_files}
+      glob: '**/*.{js,ts,cjs,mjs}'
+      run: npm exec -- eslint --fix --no-warn-ignored --concurrency auto {staged_files}
       stage_fixed: true
     format-pkg:
       glob: 'package.json'
-      run: npx sort-package-json {staged_files}
+      run: npm exec -- sort-package-json {staged_files}
+      stage_fixed: true
+    format-code:
+      glob: '**/*.{js,ts,cjs,mjs,json,md,yml,yaml}'
+      run: npm exec -- prettier --write --ignore-unknown {staged_files}
       stage_fixed: true
 pre-push:
   parallel: true
