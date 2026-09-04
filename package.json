@@ -1,7 +1,7 @@
 {
-  "name": "veils",
+  "name": "veils-js",
   "version": "0.0.0",
-  "description": "Veil Objects: they cache all reads until the first write",
+  "description": "Veil Objects to replace DTOs, reduce boilerplate code, and leverage JavaScript's dynamic nature",
   "keywords": [
     "caching",
     "veil",
