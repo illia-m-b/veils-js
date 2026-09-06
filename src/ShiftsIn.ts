@@ -12,9 +12,10 @@
  * the original method and must return an array (tuple) of the modified
  * arguments.
  *
- * Note: These transformers are used to intercept and mutate inputs before they
- * are passed to the original object. All transformers are strictly optional;
- * you only need to provide them for the methods you actually want to modify.
+ * @remarks
+ * These transformers are used to intercept and mutate inputs before they are
+ * passed to the original object. All transformers are strictly optional; you
+ * only need to provide them for the methods you actually want to modify.
  */
 export type ShiftsIn<T extends object> = Partial<{
   [K in keyof T]: T[K] extends (...arguments_: infer U) => unknown
