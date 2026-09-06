@@ -15,7 +15,10 @@ test.for<[boolean, boolean]>([
 ])('returns %s when isInCache is %s', ([expected, isInCache], { expect }): void => {
   const policy: Policy = unpiercablePolicy();
   const property = Symbol('property');
-  expect(policy.verdict(property, isInCache)).toBe(expected);
+  expect(
+    policy.verdict(property, isInCache),
+    'Verdict does not strictly reflect whether property is in cache',
+  ).toBe(expected);
 });
 
 test('ignores mutation and returns true for cached property', (): void => {
@@ -23,5 +26,8 @@ test('ignores mutation and returns true for cached property', (): void => {
   const property = Symbol('property');
   const isInCache = true;
   policy.onMutate(property);
-  expect(policy.verdict(property, isInCache)).toBe(true);
+  expect(
+    policy.verdict(property, isInCache),
+    'Unpiercable policy changed verdict after mutation',
+  ).toBe(true);
 });

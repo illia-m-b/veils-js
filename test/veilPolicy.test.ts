@@ -13,14 +13,20 @@ test('allows access to cached property when veil is intact', (): void => {
   const policy: Policy = veilPolicy();
   const property = Symbol('property');
   const isInCache = true;
-  expect(policy.verdict(property, isInCache)).toBe(true);
+  expect(
+    policy.verdict(property, isInCache),
+    'Policy denied cache access while veil is intact',
+  ).toBe(true);
 });
 
 test('pierces the veil when property is not in cache', (): void => {
   const policy: Policy = veilPolicy();
   const property = Symbol('property');
   const isInCache = false;
-  expect(policy.verdict(property, isInCache)).toBe(false);
+  expect(
+    policy.verdict(property, isInCache),
+    'Policy allowed access for a property missing from cache',
+  ).toBe(false);
 });
 
 test('rejects access to cached property after veil was pierced', (): void => {
@@ -30,7 +36,10 @@ test('rejects access to cached property after veil was pierced', (): void => {
   policy.verdict(missedProperty, isMissed);
   const cachedProperty = Symbol('cached-property');
   const isCached = true;
-  expect(policy.verdict(cachedProperty, isCached)).toBe(false);
+  expect(
+    policy.verdict(cachedProperty, isCached),
+    'Policy granted cache access after veil was previously pierced',
+  ).toBe(false);
 });
 
 test('pierces the veil when a property is mutated', (): void => {
@@ -39,5 +48,8 @@ test('pierces the veil when a property is mutated', (): void => {
   const mutated = Symbol('mutated-property');
   const isInCache = true;
   policy.onMutate(mutated);
-  expect(policy.verdict(property, isInCache)).toBe(false);
+  expect(
+    policy.verdict(property, isInCache),
+    'Policy granted cache access after a property was mutated',
+  ).toBe(false);
 });

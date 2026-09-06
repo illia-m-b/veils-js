@@ -21,7 +21,10 @@ test('returns original value when there is no corresponding transformer function
   const maths = new DumbMath(value);
   const shifts: ShiftsOut<DumbMath> = {};
   const covering: DumbMath = alterOut(maths, shifts);
-  expect(covering.sumSquared(other)).toBe((value + other) ** 2);
+  expect(
+    covering.sumSquared(other),
+    'Method without a shift transformer must return unmodified output',
+  ).toBe((value + other) ** 2);
 });
 
 test('alters the result of the original method with the given transformer function', (): void => {
@@ -36,7 +39,10 @@ test('alters the result of the original method with the given transformer functi
   const maths = new DumbMath(value);
   const shifts: ShiftsOut<DumbMath> = { sumSquared: (result: number): number => result * 2 };
   const covering: DumbMath = alterOut(maths, shifts);
-  expect(covering.sumSquared(other)).toBe((value + other) ** 2 * 2);
+  expect(
+    covering.sumSquared(other),
+    'Shift transformer was not applied to the method return value',
+  ).toBe((value + other) ** 2 * 2);
 });
 
 test('alters the value of the original property with the given transformer function', (): void => {
@@ -47,7 +53,7 @@ test('alters the value of the original property with the given transformer funct
   const maths: Maths = { value };
   const shifts: ShiftsOut<Maths> = { value: (v: number): number => v * 2 };
   const covering: Maths = alterOut(maths, shifts);
-  expect(covering.value).toBe(value * 2);
+  expect(covering.value, 'Shift transformer was not applied to the property value').toBe(value * 2);
 });
 
 test('respects proxied methods', (): void => {
@@ -73,5 +79,8 @@ test('respects proxied methods', (): void => {
     greeting: (g: string): string => g.toUpperCase(),
   };
   const covering: DumbUser = alterOut(john, shifts);
-  expect(covering.greeting()).toBe(transformed);
+  expect(
+    covering.greeting(),
+    'Nested method call on proxied receiver failed to apply output shift',
+  ).toBe(transformed);
 });

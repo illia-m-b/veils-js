@@ -17,7 +17,7 @@ test('returns original value for a property', (): void => {
   const dude: User = { age };
   const shifts: ShiftsIn<User> = {};
   const covering: User = alterIn(dude, shifts);
-  expect(covering.age).toBe(age);
+  expect(covering.age, 'Original property value must remain unmodified by alterIn').toBe(age);
 });
 
 test('calls original method when shift is not provided', (): void => {
@@ -32,7 +32,10 @@ test('calls original method when shift is not provided', (): void => {
   const john = new DumbUser(name);
   const shifts: ShiftsIn<DumbUser> = {};
   const covering: DumbUser = alterIn(john, shifts);
-  expect(covering.greeting()).toBe(greeting);
+  expect(
+    covering.greeting(),
+    'Method without a shift transformer must return original output',
+  ).toBe(greeting);
 });
 
 test('modifies input arguments using the provided shift', (): void => {
@@ -48,7 +51,9 @@ test('modifies input arguments using the provided shift', (): void => {
   const maths = new DumbMaths(x);
   const shifts: ShiftsIn<DumbMaths> = { sum: (y: number): [number] => [y * 2] };
   const covering: DumbMaths = alterIn(maths, shifts);
-  expect(covering.sum(y)).toBe(xPlusDoubleY);
+  expect(covering.sum(y), 'Shift transformer was not applied to the method arguments').toBe(
+    xPlusDoubleY,
+  );
 });
 
 test('respects proxied methods', (): void => {
@@ -74,5 +79,8 @@ test('respects proxied methods', (): void => {
     ],
   };
   const covering: DumbUser = alterIn(john, shifts);
-  expect(covering.meeting(phrase, stranger)).toBe(transformed);
+  expect(
+    covering.meeting(phrase, stranger),
+    'Internal method call on proxied receiver failed to apply shift',
+  ).toBe(transformed);
 });
