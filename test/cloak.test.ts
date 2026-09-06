@@ -57,3 +57,20 @@ test('resets policy state and restores cache access upon property mutation', ():
   sequence.push(covering.name);
   expect(sequence).toStrictEqual([cached, cached, original, cached]);
 });
+
+test('does not notify policy when mutation fails', (): void => {
+  interface User {
+    name: string;
+  }
+  const original = 'John';
+  const john: User = { name: original };
+  Object.defineProperty(john, 'name', { writable: false });
+  const cache: VeilCache<User> = { name: 'Jack' };
+  const covering: User = cloak(john, cache, twoTimesPolicy());
+  void covering.name; // eslint-disable-line @typescript-eslint/no-meaningless-void-operator
+  void covering.name; // eslint-disable-line @typescript-eslint/no-meaningless-void-operator
+  try {
+    covering.name = 'James';
+  } catch {} // eslint-disable-line no-empty
+  expect(covering.name, 'Policy was notified, even though the mutation failed').toBe(original);
+});

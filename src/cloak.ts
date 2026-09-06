@@ -44,8 +44,12 @@ export const cloak = <T extends object>(
       }
       return original;
     },
+
     set(target: T, property: string | symbol, newValue: unknown, receiver: unknown): boolean {
-      policy.onMutate(property);
-      return Reflect.set(target, property, newValue, receiver);
+      const isMutated = Reflect.set(target, property, newValue, receiver);
+      if (isMutated) {
+        policy.onMutate(property);
+      }
+      return isMutated;
     },
   });
