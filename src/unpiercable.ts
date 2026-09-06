@@ -16,6 +16,11 @@ import { unpiercablePolicy } from './unpiercablePolicy.js';
  * properties that are missing from the cache, this proxy will always return a
  * cached value for subsequent accesses if the cache contains it.
  *
+ * @remarks
+ * NEVER decorate objects whose methods access ECMAScript `#private` fields or
+ * methods. Because `Proxy` traps preserve receiver context, accessing native
+ * `#private` members will throw a `TypeError`.
+ *
  * @param object - The original target object to wrap.
  * @param cache - A partial object containing pre-calculated values or method
  *   returns.

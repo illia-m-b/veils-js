@@ -15,6 +15,11 @@ import type { ShiftsIn } from './ShiftsIn.js';
  * arguments are then transparently forwarded to the original object. Any
  * methods or properties without defined shifts are passed through unmodified.
  *
+ * @remarks
+ * NEVER decorate objects whose methods access ECMAScript `#private` fields or
+ * methods. Because `Proxy` traps preserve receiver context, accessing native
+ * `#private` members will throw a `TypeError`.
+ *
  * @param object - The original target object to wrap.
  * @param shifts - A map of optional argument transformer functions.
  *
