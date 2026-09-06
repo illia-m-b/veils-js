@@ -14,6 +14,11 @@ import type { ShiftsOut } from './ShiftsOut.js';
  * execution completes first, and the resulting value is then passed through the
  * transformer before being returned to the caller.
  *
+ * @remarks
+ * NEVER decorate objects whose methods access ECMAScript `#private` fields or
+ * methods. Because `Proxy` traps preserve receiver context, accessing native
+ * `#private` members will throw a `TypeError`.
+ *
  * @param object - The original target object to wrap.
  * @param shifts - A map of optional return value transformer functions.
  *

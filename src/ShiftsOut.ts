@@ -13,8 +13,9 @@
  * properties, it accepts the property's value and returns a modified value of
  * the same type.
  *
- * Note: All transformers are strictly optional; you only need to provide them
- * for the members you actually want to modify.
+ * @remarks
+ * All transformers are strictly optional; you only need to provide them for the
+ * members you actually want to modify.
  */
 export type ShiftsOut<T extends object> = Partial<{
   [K in keyof T]: T[K] extends (..._arguments: never[]) => infer U

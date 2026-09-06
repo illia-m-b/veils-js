@@ -19,6 +19,11 @@ import type { VeilCache } from './VeilCache.js';
  * mutations notify the policy via its `onMutate` callback before modifying the
  * target object.
  *
+ * @remarks
+ * NEVER decorate objects whose methods access ECMAScript `#private` fields or
+ * methods. Because `Proxy` traps preserve receiver context, accessing native
+ * `#private` members will throw a `TypeError`.
+ *
  * @param object - The original target object to wrap.
  * @param cache - A partial object containing pre-calculated values or method
  *   returns.
