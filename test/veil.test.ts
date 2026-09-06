@@ -17,7 +17,7 @@ test('returns cached value for a property', (): void => {
   const cached = 'David';
   const cache: VeilCache<User> = { name: cached };
   const covering: User = veil(john, cache);
-  expect(covering.name).toBe(cached);
+  expect(covering.name, 'Failed to serve cached property value while veil is intact').toBe(cached);
 });
 
 test('returns cached value as a callable function for a method', (): void => {
@@ -28,7 +28,7 @@ test('returns cached value as a callable function for a method', (): void => {
   const cached = 'David';
   const cache: VeilCache<User> = { name: cached };
   const covering: User = veil(john, cache);
-  expect(covering.name()).toBe(cached);
+  expect(covering.name(), 'Cached method did not return expected value when called').toBe(cached);
 });
 
 test('falls back to original object when there is no corresponding cache', (): void => {
@@ -43,7 +43,9 @@ test('falls back to original object when there is no corresponding cache', (): v
   const john = new DumbUser(name);
   const cache: VeilCache<DumbUser> = { name: 'David' };
   const covering: DumbUser = veil(john, cache);
-  expect(covering.greeting()).toBe(original);
+  expect(covering.greeting(), 'Uncached method call failed to delegate to original object').toBe(
+    original,
+  );
 });
 
 test('ignores cache entirely after the veil is pierced', (): void => {
@@ -58,7 +60,7 @@ test('ignores cache entirely after the veil is pierced', (): void => {
   const cache: VeilCache<DumbUser> = { name: 'David' };
   const covering: DumbUser = veil(john, cache);
   covering.greeting();
-  expect(covering.name).toBe(original);
+  expect(covering.name, 'Cache was still served after the veil was pierced').toBe(original);
 });
 
 test('pierces the veil and returns mutated value after property assignment', (): void => {
@@ -70,5 +72,5 @@ test('pierces the veil and returns mutated value after property assignment', ():
   const covering: User = veil(john, cache);
   const mutated = 'James';
   covering.name = mutated;
-  expect(covering.name).toBe(mutated);
+  expect(covering.name, 'Veil was not pierced following property mutation').toBe(mutated);
 });

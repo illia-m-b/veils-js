@@ -17,7 +17,7 @@ test('returns cached value for a property', (): void => {
   const cached = 'David';
   const cache: VeilCache<User> = { name: cached };
   const covering: User = unpiercable(john, cache);
-  expect(covering.name).toBe(cached);
+  expect(covering.name, 'Failed to retrieve cached property value').toBe(cached);
 });
 
 test('returns cached value as a callable function for a method', (): void => {
@@ -28,7 +28,7 @@ test('returns cached value as a callable function for a method', (): void => {
   const cached = 'David';
   const cache: VeilCache<User> = { name: cached };
   const covering: User = unpiercable(john, cache);
-  expect(covering.name()).toBe(cached);
+  expect(covering.name(), 'Cached method did not return expected value when called').toBe(cached);
 });
 
 test('falls back to original object when there is no corresponding cache', (): void => {
@@ -43,7 +43,9 @@ test('falls back to original object when there is no corresponding cache', (): v
   const john = new DumbUser(name);
   const cache: VeilCache<DumbUser> = {};
   const covering: DumbUser = unpiercable(john, cache);
-  expect(covering.greeting()).toBe(greeting);
+  expect(covering.greeting(), 'Uncached method call failed to delegate to original object').toBe(
+    greeting,
+  );
 });
 
 test('retains cached value after accessing an uncached property', (): void => {
@@ -60,7 +62,9 @@ test('retains cached value after accessing an uncached property', (): void => {
   const cache: VeilCache<Post> = { length: cached };
   const covering: Post = unpiercable(post, cache);
   covering.content();
-  expect(covering.length()).toBe(cached);
+  expect(covering.length(), 'Unpiercable veil was pierced by accessing an uncached property').toBe(
+    cached,
+  );
 });
 
 test('retains cached value after property mutation', (): void => {
@@ -72,7 +76,9 @@ test('retains cached value after property mutation', (): void => {
   const cache: VeilCache<User> = { name: cached };
   const covering: User = unpiercable(john, cache);
   covering.name = 'James';
-  expect(covering.name).toBe(cached);
+  expect(covering.name, 'Unpiercable veil allowed property mutation to pierce the cache').toBe(
+    cached,
+  );
 });
 
 test('mutates the original object upon property assignment', (): void => {
@@ -84,5 +90,7 @@ test('mutates the original object upon property assignment', (): void => {
   const covering: User = unpiercable(john, cache);
   const mutated = 'James';
   covering.name = mutated;
-  expect(john.name).toBe(mutated);
+  expect(john.name, 'Property assignment on proxy was not forwarded to the target object').toBe(
+    mutated,
+  );
 });

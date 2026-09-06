@@ -40,7 +40,10 @@ test('respects custom policy decisions over multiple accesses', (): void => {
   const cached = 'Jack';
   const cache: VeilCache<User> = { name: cached };
   const covering: User = cloak(john, cache, twoTimesPolicy());
-  expect([covering.name, covering.name, covering.name]).toStrictEqual([cached, cached, original]);
+  expect(
+    [covering.name, covering.name, covering.name],
+    'Policy decisions were not followed across successive accesses',
+  ).toStrictEqual([cached, cached, original]);
 });
 
 test('resets policy state and restores cache access upon property mutation', (): void => {
@@ -55,7 +58,12 @@ test('resets policy state and restores cache access upon property mutation', ():
   const sequence: string[] = [covering.name, covering.name, covering.name];
   covering.name = 'James';
   sequence.push(covering.name);
-  expect(sequence).toStrictEqual([cached, cached, original, cached]);
+  expect(sequence, 'Policy failed to restore cache access after property mutation').toStrictEqual([
+    cached,
+    cached,
+    original,
+    cached,
+  ]);
 });
 
 test('does not notify policy when mutation fails', (): void => {
