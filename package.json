@@ -1,6 +1,6 @@
 {
   "name": "veils-js",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Veil Objects to replace DTOs, reduce boilerplate code, and leverage JavaScript's dynamic nature",
   "keywords": [
     "caching",
