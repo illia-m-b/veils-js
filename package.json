@@ -8,19 +8,19 @@
     "sql",
     "object-oriented-programming"
   ],
-  "homepage": "https://github.com/illia-m-b/veils",
+  "homepage": "https://github.com/illia-m-b/veils-js",
   "bugs": {
-    "url": "https://github.com/illia-m-b/veils/issues",
-    "email": "contact.line009@passinbox.com"
+    "url": "https://github.com/illia-m-b/veils-js/issues",
+    "email": "illiamb@duck.com"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com:illia-m-b/veils.git"
+    "url": "git+https://github.com:illia-m-b/veils-js.git"
   },
   "license": "MIT",
   "author": {
     "name": "Illia Brashkin",
-    "email": "contact.line009@passinbox.com"
+    "email": "illiamb@duck.com"
   },
   "type": "module",
   "exports": {
