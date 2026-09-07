@@ -264,7 +264,7 @@ const john = new User('John');
 const shifts: ShiftsOut<User> = {
   greeting: (original: string): string => original.toUpperCase(),
 };
-const covering = alterOut(john, shifts);
+const covering: User = alterOut(john, shifts);
 covering.greeting(); // 'HELLO, JOHN!'
 ```
 
@@ -279,11 +279,11 @@ const user = (name: string): User => ({
   greeting: (): string => `Hello, ${name}!`,
 });
 
-const john = user('John');
+const john: User = user('John');
 const shifts: ShiftsOut<User> = {
   greeting: (original: string): string => original.toUpperCase(),
 };
-const covering = alterOut(john, shifts);
+const covering: User = alterOut(john, shifts);
 covering.greeting(); // 'HELLO, JOHN!'
 ```
 
