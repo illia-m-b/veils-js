@@ -7,7 +7,7 @@ Dynamic Nature_
 [![We recommend WebStorm](https://gist.githack.com/illia-m-b/6a8d5e5f48910e79b532ddbcd9b39c01/raw/webstorm.svg)](https://www.jetbrains.com/webstorm/)
 
 [![npm version](https://img.shields.io/npm/v/veils-js)](https://www.npmjs.com/package/veils-js)
-[![CI](https://github.com/illia-m-b/veils-js/actions/workflows/npm.yml/badge.svg?branch=main)](https://github.com/illia-m-b/veils-js/actions/workflows/npm.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/illia-m-b/veils-js/npm.yml?branch=main&label=CI)](https://github.com/illia-m-b/veils-js/actions/workflows/npm.yml)
 [![TypeScript](https://img.shields.io/badge/TypeScript-blue?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Node.js](https://img.shields.io/badge/Node.js-22.x%20||%2024.x%20||%20>=26-3c873a)](https://nodejs.org)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-0-green)](https://www.npmjs.com/package/veils-js)
