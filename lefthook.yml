@@ -14,7 +14,7 @@ pre-commit:
       run: npm exec -- sort-package-json {staged_files}
       stage_fixed: true
     format-code:
-      glob: '**/*.{js,ts,cjs,mjs,json,md,yml,yaml}'
+      glob: '**/*.{js,ts,cjs,mjs,json,jsonc,md,yml,yaml}'
       run: npm exec -- prettier --write --ignore-unknown {staged_files}
       stage_fixed: true
 pre-push:
