@@ -4,9 +4,6 @@
 # yamllint disable rule:line-length
 name: commitlint
 'on':
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
