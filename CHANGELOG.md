@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/illia-m-b/veils-js/compare/veils-js-v0.1.0...veils-js-v0.1.1) (2026-09-08)
+
+
+### Bug Fixes
+
+* **pkg:** normalize repository URL ([#142](https://github.com/illia-m-b/veils-js/issues/142)) ([a1f6be5](https://github.com/illia-m-b/veils-js/commit/a1f6be5904472d7d368559209270c08a87523d8a))
+
 ## 0.1.0 (2026-09-07)
 
 
