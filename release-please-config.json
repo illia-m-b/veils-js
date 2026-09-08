@@ -3,8 +3,7 @@
     ".": {
       "release-type": "node",
       "bump-minor-pre-major": true,
-      "changelog-type": "default",
-      "release-as": "0.1.0"
+      "changelog-type": "default"
     }
   }
 }
