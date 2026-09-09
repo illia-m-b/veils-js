@@ -19,6 +19,43 @@ const isThenable = (value: unknown): value is Thenable =>
   typeof value.then === 'function';
 
 /**
+ * Resolves the underlying property value.
+ *
+ * @param target - The original object.
+ * @param key - The property key.
+ * @param receiver - The proxy receiver.
+ *
+ * @returns The resolved value.
+ */
+const resolved = (target: object, key: string | symbol, receiver: unknown): unknown =>
+  Reflect.get(target, key, receiver);
+
+/**
+ * Executes a resolved function, preserving its context.
+ *
+ * @param target - The original object.
+ * @param key - The property key.
+ * @param receiver - The proxy receiver.
+ * @param parameters - The arguments to pass to the function.
+ *
+ * @returns The result of the function execution.
+ *
+ * @throws `TypeError` if the resolved property is not a function.
+ */
+const execute = (
+  target: object,
+  key: string | symbol,
+  receiver: unknown,
+  parameters: unknown[],
+): unknown => {
+  const function_ = resolved(target, key, receiver);
+  if (!isFunction(function_)) {
+    throw new TypeError('Expected a method, but received a different type');
+  }
+  return Reflect.apply(function_, receiver, parameters);
+};
+
+/**
  * Creates a {@link Member} representation for an object's method.
  *
  * This factory generates a member that enforces function execution and strictly
@@ -31,36 +68,29 @@ const isThenable = (value: unknown): value is Thenable =>
  *
  * @returns A member instance governing the specified method.
  *
- * @throws A `TypeError` if the targeted member is accessed and executed but is
+ * @throws `TypeError` if the targeted member is accessed and executed but is
  *   not a valid function.
  *
  * @internal
  */
-export const method = (target: object, key: string | symbol): Member => {
-  const original = (receiver: unknown): unknown => Reflect.get(target, key, receiver);
-  const result = (receiver: unknown, parameters: unknown[]): unknown => {
-    const function_ = original(receiver);
-    if (!isFunction(function_)) {
-      throw new TypeError('Expected a method, but received a different type');
-    }
-    return Reflect.apply(function_, receiver, parameters);
-  };
-  return {
-    shiftedIn:
-      (shift: (...arguments_: unknown[]) => unknown[], receiver: unknown): unknown =>
-      (...parameters: unknown[]): unknown =>
-        result(receiver, shift(...parameters)),
-    shiftedOut:
-      (shift: (argument: unknown) => unknown, receiver: unknown): unknown =>
-      (...parameters: unknown[]): unknown => {
-        const evaluated = result(receiver, parameters);
-        // eslint-disable-next-line unicorn/prefer-await
-        return isThenable(evaluated) ? evaluated.then(shift) : shift(evaluated);
-      },
-    value: original,
-    veiled:
-      (cached: unknown): unknown =>
-      (..._arguments: unknown[]): unknown =>
-        cached,
-  };
-};
+export const method = (target: object, key: string | symbol): Member => ({
+  shiftedIn:
+    (shift: (...arguments_: unknown[]) => unknown[], receiver: unknown): unknown =>
+    (...parameters: unknown[]): unknown =>
+      execute(target, key, receiver, shift(...parameters)),
+
+  shiftedOut:
+    (shift: (argument: unknown) => unknown, receiver: unknown): unknown =>
+    (...parameters: unknown[]): unknown => {
+      const evaluated = execute(target, key, receiver, parameters);
+      // eslint-disable-next-line unicorn/prefer-await
+      return isThenable(evaluated) ? evaluated.then(shift) : shift(evaluated);
+    },
+
+  value: (receiver: unknown): unknown => resolved(target, key, receiver),
+
+  veiled:
+    (cached: unknown): unknown =>
+    (..._arguments: unknown[]): unknown =>
+      cached,
+});
