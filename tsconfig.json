@@ -13,7 +13,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "isolatedModules": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "pretty": false
   },
   "include": ["src/**/*", "test/**/*"]
 }

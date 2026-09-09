@@ -7,7 +7,7 @@ pre-commit:
   commands:
     lint-ts-fix:
       glob: '**/*.{js,ts,cjs,mjs}'
-      run: npm exec -- eslint --fix --no-warn-ignored --concurrency auto {staged_files}
+      run: npm exec -- eslint --fix --no-warn-ignored --concurrency=auto {staged_files}
       stage_fixed: true
     format-pkg:
       glob: 'package.json'
