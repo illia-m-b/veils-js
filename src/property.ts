@@ -6,6 +6,18 @@
 import type { Member } from './Member.js';
 
 /**
+ * Resolves the underlying property value.
+ *
+ * @param target - The original object.
+ * @param key - The property key.
+ * @param receiver - The proxy receiver.
+ *
+ * @returns The resolved value.
+ */
+const resolved = (target: object, key: string | symbol, receiver: unknown): unknown =>
+  Reflect.get(target, key, receiver);
+
+/**
  * Creates a {@link Member} representation for a standard object property or
  * getter.
  *
@@ -20,14 +32,14 @@ import type { Member } from './Member.js';
  *
  * @internal
  */
-export const property = (target: object, key: string | symbol): Member => {
-  const original = (receiver: unknown): unknown => Reflect.get(target, key, receiver);
-  return {
-    shiftedIn: (_shift: (...arguments_: unknown[]) => unknown[], receiver: unknown): unknown =>
-      original(receiver),
-    shiftedOut: (shift: (argument: unknown) => unknown, receiver: unknown): unknown =>
-      shift(original(receiver)),
-    value: (receiver: unknown): unknown => original(receiver),
-    veiled: (cached: unknown): unknown => cached,
-  };
-};
+export const property = (target: object, key: string | symbol): Member => ({
+  shiftedIn: (_shift: (...arguments_: unknown[]) => unknown[], receiver: unknown): unknown =>
+    resolved(target, key, receiver),
+
+  shiftedOut: (shift: (argument: unknown) => unknown, receiver: unknown): unknown =>
+    shift(resolved(target, key, receiver)),
+
+  value: (receiver: unknown): unknown => resolved(target, key, receiver),
+
+  veiled: (cached: unknown): unknown => cached,
+});
