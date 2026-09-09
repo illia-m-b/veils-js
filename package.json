@@ -47,12 +47,12 @@
     "format:code:check": "prettier --check --ignore-unknown .",
     "format:pkg": "sort-package-json",
     "format:pkg:check": "sort-package-json --check",
-    "lint:pkg": "npmPkgJsonLint --ignorePath .gitignore --maxWarnings 0 .",
-    "lint:ts": "eslint --concurrency auto --max-warnings 0 .",
-    "lint:ts:fix": "eslint --fix --concurrency auto .",
+    "lint:pkg": "npmPkgJsonLint --ignorePath=.gitignore --maxWarnings=0 .",
+    "lint:ts": "eslint --concurrency=auto --max-warnings=0 .",
+    "lint:ts:fix": "eslint --fix --concurrency=auto .",
     "test": "vitest run --coverage",
     "test:watch": "vitest",
-    "types:check": "tsc --noEmit --pretty false"
+    "types:check": "tsc --noEmit"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
