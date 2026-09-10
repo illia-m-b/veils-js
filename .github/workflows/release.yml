@@ -14,7 +14,7 @@ permissions:
   id-token: write
 jobs:
   release-pr:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     outputs:
       created: ${{ steps.release.outputs.release_created }}
     steps:
