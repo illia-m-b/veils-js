@@ -9,6 +9,10 @@ pre-commit:
       glob: '**/*.{js,ts,cjs,mjs}'
       run: npm exec -- eslint --fix --no-warn-ignored --concurrency=auto {staged_files}
       stage_fixed: true
+    fix-pkg:
+      glob: 'package.json'
+      run: npm pkg fix
+      stage_fixed: true
     format-pkg:
       glob: 'package.json'
       run: npm exec -- sort-package-json {staged_files}
