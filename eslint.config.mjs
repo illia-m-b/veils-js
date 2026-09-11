@@ -71,6 +71,33 @@ export default defineConfig([
       'unicorn/filename-case': 'off',
       'unicorn/no-empty-file': 'off',
       'unicorn/prevent-abbreviations': 'off',
+      'no-extend-native': 'error',
+      'no-proto': 'error',
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['node:*'],
+              message: 'veils-js must remain isomorphic. Do not import Node.js built-ins.',
+            },
+          ],
+          paths: [
+            { name: 'fs', message: 'Do not import Node.js built-ins.' },
+            { name: 'path', message: 'Do not import Node.js built-ins.' },
+            { name: 'crypto', message: 'Do not import Node.js built-ins.' },
+          ],
+        },
+      ],
+      '@typescript-eslint/no-dynamic-delete': 'error',
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'ForInStatement',
+          message:
+            'for...in loops over Proxies trigger an avalanche of internal traps (ownKeys, getOwnPropertyDescriptor) and destroy V8 optimization. Use Reflect.ownKeys() or Object.keys() instead.',
+        },
+      ],
     },
     settings: {
       'import-x/resolver': {
