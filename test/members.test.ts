@@ -12,7 +12,7 @@ import { members } from '../src/members.js';
 test('resolves inherited method from prototype chain as a method member', (): void => {
   const inherited = 'base';
   const base = { greeting: () => inherited };
-  const derived = { __proto__: base };
+  const derived = Object.create(base) as typeof base;
   const method = members(derived).member('greeting').value(base) as (
     ..._arguments: unknown[]
   ) => unknown;
