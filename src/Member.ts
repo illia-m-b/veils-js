@@ -46,8 +46,9 @@ export interface Member {
    *
    * @param cached - The pre-calculated safe value or fallback to return instead
    *   of the real one.
+   * @param receiver - The `this` context for evaluating the property or method.
    *
    * @returns The masked value or a function that returns the masked value.
    */
-  veiled(cached: unknown): unknown;
+  veiled(cached: unknown, receiver: unknown): unknown;
 }

@@ -68,7 +68,24 @@ test('returns cached value', (): void => {
   const cached = 'Jack';
   const member: Member = property(john, 'name');
   expect(
-    member.veiled(cached),
+    member.veiled(cached, john),
     'The property returned the actual value instead of the provided cached one',
   ).toBe(cached);
+});
+
+test('respects proxy invariants', (): void => {
+  const original = Symbol(Math.random());
+  const object = Object.defineProperties(
+    {},
+    {
+      dumb: {
+        value: original,
+      },
+    },
+  );
+  const cached = Symbol(Math.random());
+  const member: Member = property(object, 'dumb');
+  expect(member.veiled(cached, object), 'Cached value was returned for a frozen property').toBe(
+    original,
+  );
 });

@@ -40,7 +40,7 @@ test('resolves getter on prototype as a property member without executing it', (
   };
   const member: Member = members(object).member('getter');
   const cached = Math.random();
-  const veiled = member.veiled(cached);
+  const veiled = member.veiled(cached, object);
   expect(
     veiled,
     'The members factory eagerly executed the getter or failed to resolve it as a property member',

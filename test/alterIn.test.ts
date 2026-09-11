@@ -84,3 +84,56 @@ test('respects proxied methods', (): void => {
     'Internal method call on proxied receiver failed to apply shift',
   ).toBe(transformed);
 });
+
+test('respects proxy invariants for frozen methods', (): void => {
+  interface Maths {
+    maths(n: number): number;
+  }
+  const original = Math.random();
+  const doubled = original * 2;
+  const maths: Maths = {
+    maths(n: number): number {
+      return n * 2;
+    },
+  };
+  Object.defineProperty(maths, 'maths', { configurable: false, writable: false });
+  const shifts: ShiftsIn<Maths> = { maths: (n: number): [number] => [n * 2] };
+  const covering = alterIn(maths, shifts);
+  expect(
+    covering.maths(original),
+    'The input shift was applied to a frozen method, violating proxy invariants',
+  ).toBe(doubled);
+});
+
+test('preserves method referential identity upon repeated access', (): void => {
+  const object = { dumb: (s: string): string => s };
+  const shifts: ShiftsIn<typeof object> = { dumb: (s: string): [string] => [s.trim()] };
+  const covering = alterIn(object, shifts);
+  expect(covering.dumb, 'The proxy returned a different closure on repeated method access').toBe(
+    covering.dumb,
+  );
+});
+
+test('resolves method when accessed with a primitive receiver', (): void => {
+  const object = { dumb: (): number[] => [] };
+  const shifts: ShiftsIn<typeof object> = { dumb: () => [] };
+  const covering = alterIn(object, shifts);
+  const receiver = 42;
+  const resolved = Reflect.get(covering, 'dumb', receiver);
+  expect(typeof resolved, 'Failed to resolve method when accessed with a primitive receiver').toBe(
+    'function',
+  );
+});
+
+test('bypasses method cache when accessed with a primitive receiver', (): void => {
+  const object = { dumb: (): number[] => [] };
+  const shifts: ShiftsIn<typeof object> = { dumb: () => [] };
+  const covering = alterIn(object, shifts);
+  const receiver = 42;
+  const first = Reflect.get(covering, 'dumb', receiver);
+  const second = Reflect.get(covering, 'dumb', receiver);
+  expect(
+    first,
+    'A primitive receiver was erroneously cached despite not being a valid WeakMap key',
+  ).not.toBe(second);
+});

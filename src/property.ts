@@ -5,6 +5,8 @@
 
 import type { Member } from './Member.js';
 
+import { hasGetInvariant } from './hasGetInvariant.js';
+
 /**
  * Resolves the underlying property value.
  *
@@ -37,9 +39,12 @@ export const property = (target: object, key: string | symbol): Member => ({
     resolved(target, key, receiver),
 
   shiftedOut: (shift: (argument: unknown) => unknown, receiver: unknown): unknown =>
-    shift(resolved(target, key, receiver)),
+    hasGetInvariant(target, key)
+      ? resolved(target, key, receiver)
+      : shift(resolved(target, key, receiver)),
 
   value: (receiver: unknown): unknown => resolved(target, key, receiver),
 
-  veiled: (cached: unknown): unknown => cached,
+  veiled: (cached: unknown, receiver: unknown): unknown =>
+    hasGetInvariant(target, key) ? resolved(target, key, receiver) : cached,
 });

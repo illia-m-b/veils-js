@@ -5,6 +5,9 @@
 
 import type { ShiftsOut } from './ShiftsOut.js';
 
+import { Member } from './Member.js';
+import { members, Members } from './members.js';
+
 /**
  * Decorates the given object intercepting and modifying returned values.
  *
@@ -25,18 +28,18 @@ import type { ShiftsOut } from './ShiftsOut.js';
  * @returns A proxied version of the target object with the output modifiers
  *   applied.
  */
-export const alterOut = <T extends object>(object: T, shifts: NoInfer<ShiftsOut<T>>): T =>
-  new Proxy(object, {
-    get(target: T, property: string | symbol, receiver: unknown) {
-      const original = Reflect.get(target, property, receiver);
+export const alterOut = <T extends object>(object: T, shifts: NoInfer<ShiftsOut<T>>): T => {
+  const collection: Members = members(object);
+  return new Proxy(object, {
+    get(_target: T, property: string | symbol, receiver: unknown) {
+      const member: Member = collection.member(property);
       if (!Object.hasOwn(shifts, property)) {
-        return original;
+        return member.value(receiver);
       }
-      const shift = shifts[property as keyof T] as (argument: unknown) => unknown;
-      if (typeof original === 'function') {
-        return (...parameters: unknown[]): unknown =>
-          shift(Reflect.apply(original, receiver, parameters));
-      }
-      return shift(original);
+      return member.shiftedOut(
+        shifts[property as keyof T] as (..._arguments: unknown[]) => unknown,
+        receiver,
+      );
     },
   });
+};

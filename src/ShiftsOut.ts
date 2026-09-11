@@ -19,6 +19,8 @@
  */
 export type ShiftsOut<T extends object> = Partial<{
   [K in keyof T]: T[K] extends (..._arguments: never[]) => infer U
-    ? (_argument: U) => U
+    ? U extends Promise<infer V>
+      ? (_argument: V) => Promise<V> | V
+      : (_argument: U) => U
     : (_argument: T[K]) => T[K];
 }>;

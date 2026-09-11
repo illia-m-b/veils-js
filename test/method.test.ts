@@ -81,9 +81,27 @@ test('returns a function that evaluates to the provided cached value instead of 
   const object = { greeting: (name: string) => `Hello, ${name}!` };
   const member: Member = method(object, 'greeting');
   const cached = 'Bye, James!';
-  const veiled = member.veiled(cached) as (..._arguments: unknown[]) => unknown;
+  const veiled = member.veiled(cached, object) as (..._arguments: unknown[]) => unknown;
   expect(
     veiled('John'),
     'The method member failed to bypass execution and return the provided cached value',
   ).toBe(cached);
+});
+
+test('respects proxy invariants', (): void => {
+  const empty = {};
+  const original = (): object => empty;
+  const object = Object.defineProperties(
+    {},
+    {
+      dumb: {
+        value: original,
+      },
+    },
+  );
+  const cached = empty;
+  const member: Member = method(object, 'dumb');
+  expect(member.veiled(cached, object), 'Cached value was returned for a frozen property').toBe(
+    original,
+  );
 });

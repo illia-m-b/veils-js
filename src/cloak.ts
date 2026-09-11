@@ -6,6 +6,9 @@
 import type { Policy } from './Policy.js';
 import type { VeilCache } from './VeilCache.js';
 
+import { Member } from './Member.js';
+import { members, Members } from './members.js';
+
 /**
  * Creates a veiled wrapper around the given object using a custom caching
  * policy.
@@ -39,15 +42,15 @@ export const cloak = <T extends object>(
   object: T,
   cache: NoInfer<VeilCache<T>>,
   policy: Policy,
-): T =>
-  new Proxy(object, {
-    get(target: T, property: string | symbol, receiver: unknown) {
-      const original = Reflect.get(target, property, receiver);
+): T => {
+  const collection: Members = members(object);
+  return new Proxy(object, {
+    get(_target: T, property: string | symbol, receiver: unknown) {
+      const member: Member = collection.member(property);
       if (policy.verdict(property, Object.hasOwn(cache, property))) {
-        const cached = cache[property as keyof T];
-        return typeof original === 'function' ? () => cached : cached;
+        return member.veiled(cache[property as keyof T], receiver);
       }
-      return original;
+      return member.value(receiver);
     },
 
     set(target: T, property: string | symbol, newValue: unknown, receiver: unknown): boolean {
@@ -58,3 +61,4 @@ export const cloak = <T extends object>(
       return isMutated;
     },
   });
+};
