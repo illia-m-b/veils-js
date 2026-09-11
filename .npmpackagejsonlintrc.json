@@ -34,6 +34,26 @@
     "prefer-absolute-version-devDependencies": "error",
     "prefer-alphabetical-devDependencies": "error",
     "prefer-alphabetical-scripts": "error",
-    "no-duplicate-properties": "error"
+    "no-duplicate-properties": "error",
+    "prefer-provenance": "error",
+    "no-archive-dependencies": "error",
+    "no-archive-devDependencies": "error",
+    "no-archive-peerDependencies": "error",
+    "no-git-dependencies": "error",
+    "no-git-devDependencies": "error",
+    "no-git-peerDependencies": "error",
+    "no-file-dependencies": "error",
+    "no-file-devDependencies": "error",
+    "no-file-peerDependencies": "error",
+    "prefer-absolute-version-dependencies": "error",
+    "prefer-absolute-version-peerDependencies": "error",
+    "prefer-no-version-zero-dependencies": "error",
+    "prefer-no-version-zero-devDependencies": [
+      "error",
+      {
+        "exceptions": ["eslint-plugin-tsdoc"]
+      }
+    ],
+    "prefer-no-version-zero-peerDependencies": "error"
   }
 }
