@@ -16,6 +16,10 @@ import { veilPolicy } from './veilPolicy.js';
  * that is _not_ in the cache, the veil is permanently pierced. All subsequent
  * accesses will bypass the cache and delegate to the original object.
  *
+ * Implicit systemic lookups by the JS engine (such as `Symbol`s, `.then`,
+ * `.toString`) are safely ignored by the underlying policy and will not pierce
+ * the veil.
+ *
  * For a version that never pierces, see {@link unpiercable}.
  *
  * @remarks

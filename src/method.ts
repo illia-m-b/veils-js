@@ -5,6 +5,8 @@
 
 import type { Member } from './Member.js';
 
+import { hasGetInvariant } from './hasGetInvariant.js';
+
 interface Thenable {
   then(onFulfilled: (value: unknown) => unknown): unknown;
 }
@@ -56,6 +58,16 @@ const execute = (
 };
 
 /**
+ * Determines if a value can safely be used as a key in a `WeakMap`.
+ *
+ * @param value - The value to check.
+ *
+ * @returns `true` if the value is a valid `WeakMap` key.
+ */
+const isWeakKey = (value: unknown): value is object =>
+  (typeof value === 'object' && value !== null) || typeof value === 'function';
+
+/**
  * Creates a {@link Member} representation for an object's method.
  *
  * This factory generates a member that enforces function execution and strictly
@@ -73,24 +85,61 @@ const execute = (
  *
  * @internal
  */
-export const method = (target: object, key: string | symbol): Member => ({
-  shiftedIn:
-    (shift: (...arguments_: unknown[]) => unknown[], receiver: unknown): unknown =>
-    (...parameters: unknown[]): unknown =>
-      execute(target, key, receiver, shift(...parameters)),
-
-  shiftedOut:
-    (shift: (argument: unknown) => unknown, receiver: unknown): unknown =>
-    (...parameters: unknown[]): unknown => {
-      const evaluated = execute(target, key, receiver, parameters);
-      // eslint-disable-next-line unicorn/prefer-await
-      return isThenable(evaluated) ? evaluated.then(shift) : shift(evaluated);
+export const method = (target: object, key: string | symbol): Member => {
+  const cacheIn = new WeakMap<object, unknown>();
+  const cacheOut = new WeakMap<object, unknown>();
+  const cacheVeiled = new WeakMap<object, unknown>();
+  return {
+    shiftedIn: (shift: (...arguments_: unknown[]) => unknown[], receiver: unknown): unknown => {
+      if (hasGetInvariant(target, key)) {
+        return resolved(target, key, receiver);
+      }
+      if (isWeakKey(receiver)) {
+        const cached = cacheIn.get(receiver);
+        if (cached !== undefined) return cached;
+      }
+      const covering = (...parameters: unknown[]): unknown =>
+        execute(target, key, receiver, shift(...parameters));
+      if (isWeakKey(receiver)) {
+        cacheIn.set(receiver, covering);
+      }
+      return covering;
     },
 
-  value: (receiver: unknown): unknown => resolved(target, key, receiver),
+    shiftedOut: (shift: (argument: unknown) => unknown, receiver: unknown): unknown => {
+      if (hasGetInvariant(target, key)) {
+        return resolved(target, key, receiver);
+      }
+      if (isWeakKey(receiver)) {
+        const cached = cacheOut.get(receiver);
+        if (cached !== undefined) return cached;
+      }
+      const covering = (...parameters: unknown[]): unknown => {
+        const evaluated = execute(target, key, receiver, parameters);
+        // eslint-disable-next-line unicorn/prefer-await
+        return isThenable(evaluated) ? evaluated.then(shift) : shift(evaluated);
+      };
+      if (isWeakKey(receiver)) {
+        cacheOut.set(receiver, covering);
+      }
+      return covering;
+    },
 
-  veiled:
-    (cached: unknown): unknown =>
-    (..._arguments: unknown[]): unknown =>
-      cached,
-});
+    value: (receiver: unknown): unknown => resolved(target, key, receiver),
+
+    veiled: (cached: unknown, receiver: unknown): unknown => {
+      if (hasGetInvariant(target, key)) {
+        return resolved(target, key, receiver);
+      }
+      if (isWeakKey(receiver)) {
+        const existing = cacheVeiled.get(receiver);
+        if (existing !== undefined) return existing;
+      }
+      const covering = (..._arguments: unknown[]): unknown => cached;
+      if (isWeakKey(receiver)) {
+        cacheVeiled.set(receiver, covering);
+      }
+      return covering;
+    },
+  };
+};

@@ -10,10 +10,14 @@ import type { ShiftsOut } from '../src/ShiftsOut.js';
 test('infers output shifts correctly', (): void => {
   interface Post {
     content: () => string;
+    fetched: () => Promise<Map<string, boolean>>;
     id: number;
   }
   interface PostShiftsOut {
     content?: (content: string) => string;
+    fetched?: (
+      fetched: Map<string, boolean>,
+    ) => Map<string, boolean> | Promise<Map<string, boolean>>;
     id?: (id: number) => number;
   }
   expectTypeOf<ShiftsOut<Post>>().toEqualTypeOf<PostShiftsOut>();

@@ -71,14 +71,71 @@ test('does not notify policy when mutation fails', (): void => {
     name: string;
   }
   const original = 'John';
+  const cached = 'Jack';
   const john: User = { name: original };
   Object.defineProperty(john, 'name', { writable: false });
-  const cache: VeilCache<User> = { name: 'Jack' };
+  const cache: VeilCache<User> = { name: cached };
   const covering: User = cloak(john, cache, twoTimesPolicy());
-  void covering.name; // eslint-disable-line @typescript-eslint/no-meaningless-void-operator
-  void covering.name; // eslint-disable-line @typescript-eslint/no-meaningless-void-operator
+  const calls = [covering.name, covering.name];
   try {
     covering.name = 'James';
-  } catch {} // eslint-disable-line no-empty
-  expect(covering.name, 'Policy was notified, even though the mutation failed').toBe(original);
+  } catch (error: unknown) {
+    if (!(error instanceof TypeError)) {
+      throw error;
+    }
+  }
+  calls.push(covering.name);
+  expect(calls, 'Policy was notified, even though the mutation failed').toStrictEqual([
+    cached,
+    cached,
+    original,
+  ]);
+});
+
+test('does not evaluate eager getters when serving from cache', (): void => {
+  const object = {
+    get dumb(): number {
+      throw new Error('You are not allowed to execute this code!');
+    },
+  };
+  const cached = Math.random();
+  const cache: VeilCache<typeof object> = { dumb: cached };
+  const covering = cloak(object, cache, twoTimesPolicy());
+  expect(
+    covering.dumb,
+    'Cloak eagerly evaluated the getter despite policy allowing cache access',
+  ).toBe(cached);
+});
+
+test('preserves method referential identity upon repeated access', (): void => {
+  const object = { dumb: (): string => 'Hello' };
+  const cache: VeilCache<typeof object> = { dumb: 'Cached' };
+  const covering = cloak(object, cache, twoTimesPolicy());
+  expect(covering.dumb, 'The proxy returned a different closure on repeated method access').toBe(
+    covering.dumb,
+  );
+});
+
+test('resolves method when accessed with a primitive receiver', (): void => {
+  const object = { dumb: (): number[] => [] };
+  const cache: VeilCache<typeof object> = { dumb: [] };
+  const covering = cloak(object, cache, twoTimesPolicy());
+  const receiver = 42;
+  const resolved = Reflect.get(covering, 'dumb', receiver);
+  expect(typeof resolved, 'Failed to resolve method when accessed with a primitive receiver').toBe(
+    'function',
+  );
+});
+
+test('bypasses method cache when accessed with a primitive receiver', (): void => {
+  const object = { dumb: (): number[] => [] };
+  const cache: VeilCache<typeof object> = { dumb: [] };
+  const covering = cloak(object, cache, twoTimesPolicy());
+  const receiver = 42;
+  const first = Reflect.get(covering, 'dumb', receiver);
+  const second = Reflect.get(covering, 'dumb', receiver);
+  expect(
+    first,
+    'A primitive receiver was erroneously cached despite not being a valid WeakMap key',
+  ).not.toBe(second);
 });

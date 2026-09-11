@@ -3,7 +3,11 @@
  * SPDX-License-Identifier: MIT
  */
 
+import type { Member } from './Member.js';
+import type { Members } from './members.js';
 import type { ShiftsIn } from './ShiftsIn.js';
+
+import { members } from './members.js';
 
 /**
  * Creates a wrapper around the given object that intercepts and modifies method
@@ -16,9 +20,12 @@ import type { ShiftsIn } from './ShiftsIn.js';
  * methods or properties without defined shifts are passed through unmodified.
  *
  * @remarks
- * NEVER decorate objects whose methods access ECMAScript `#private` fields or
- * methods. Because `Proxy` traps preserve receiver context, accessing native
- * `#private` members will throw a `TypeError`.
+ * 1. NEVER decorate objects whose methods access ECMAScript `#private` fields or
+ *    methods. Because `Proxy` traps preserve receiver context, accessing native
+ *    `#private` members will throw a `TypeError`.
+ * 2. If an input shift is provided for a standard data property or an accessor
+ *    (getter), it is silently ignored, as these members do not accept
+ *    arguments.
  *
  * @param object - The original target object to wrap.
  * @param shifts - A map of optional argument transformer functions.
@@ -26,18 +33,18 @@ import type { ShiftsIn } from './ShiftsIn.js';
  * @returns A proxied version of the target object with the argument modifiers
  *   applied.
  */
-export const alterIn = <T extends object>(object: T, shifts: NoInfer<ShiftsIn<T>>): T =>
-  new Proxy(object, {
-    get(target: T, property: string | symbol, receiver: unknown) {
-      const original = Reflect.get(target, property, receiver);
-      if (typeof original !== 'function' || !Object.hasOwn(shifts, property)) {
-        return original;
+export const alterIn = <T extends object>(object: T, shifts: NoInfer<ShiftsIn<T>>): T => {
+  const collection: Members = members(object);
+  return new Proxy(object, {
+    get(_target: T, property: string | symbol, receiver: unknown) {
+      const member: Member = collection.member(property);
+      if (!Object.hasOwn(shifts, property)) {
+        return member.value(receiver);
       }
-      return (..._arguments: unknown[]): unknown =>
-        Reflect.apply(
-          original,
-          receiver,
-          (shifts[property as keyof T] as (..._arguments: unknown[]) => unknown[])(..._arguments),
-        );
+      return member.shiftedIn(
+        shifts[property as keyof T] as (..._arguments: unknown[]) => unknown[],
+        receiver,
+      );
     },
   });
+};

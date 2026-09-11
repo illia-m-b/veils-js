@@ -84,3 +84,99 @@ test('respects proxied methods', (): void => {
     'Nested method call on proxied receiver failed to apply output shift',
   ).toBe(transformed);
 });
+
+test('alters the resolved value of a promise returned by an asynchronous method', async (): Promise<void> => {
+  interface Maths {
+    maths: () => Promise<number>;
+  }
+  const random = Math.random();
+  const transformed = random * 2;
+  const object: Maths = { maths: () => Promise.resolve(random) };
+  const shifts: ShiftsOut<Maths> = { maths: (n: number): number => n * 2 };
+  const covering: Maths = alterOut(object, shifts);
+  expect(
+    await covering.maths(),
+    'The output shift was not applied to the resolved value of the promise',
+  ).toBe(transformed);
+});
+
+test('respects proxy invariants for frozen data properties', (): void => {
+  interface Maths {
+    readonly maths: number;
+  }
+  const original = Math.random();
+  const object: Maths = { maths: original };
+  Object.defineProperty(object, 'maths', { configurable: false, writable: false });
+  const shifts: ShiftsOut<Maths> = { maths: (v: number) => v * 2 };
+  const covering: Maths = alterOut(object, shifts);
+  expect(
+    covering.maths,
+    'The output shift was applied to a frozen data property, violating proxy invariants',
+  ).toBe(original);
+});
+
+test('respects proxy invariants for frozen setter-only accessors', (): void => {
+  const object = Object.defineProperty({}, 'property', {
+    configurable: false,
+    set: (): void => {
+      Object.freeze({});
+    },
+  });
+  const covering = alterOut(object, { property: () => 'altered' });
+  expect(
+    // @ts-expect-error: property is defined with `Object.defineProperty`
+    covering.property,
+    'The output shift was applied to a setter-only accessor, violating proxy invariants',
+  ).toBe(undefined);
+});
+
+test('respects proxy invariants for frozen methods', (): void => {
+  interface Maths {
+    maths: () => number;
+  }
+  const original = Math.random();
+  const maths: Maths = { maths: (): number => original };
+  Object.defineProperty(maths, 'maths', {
+    configurable: false,
+    writable: false,
+  });
+  const shifts: ShiftsOut<Maths> = { maths: (n: number): number => n * 2 };
+  const covering: Maths = alterOut(maths, shifts);
+  expect(
+    covering.maths(),
+    'The output shift was applied to a frozen method, violating proxy invariants',
+  ).toBe(original);
+});
+
+test('preserves method referential identity upon repeated access', (): void => {
+  const object = { dumb: (): string => 'Hello' };
+  const shifts: ShiftsOut<typeof object> = { dumb: (s: string): string => s.toUpperCase() };
+  const covering = alterOut(object, shifts);
+  expect(covering.dumb, 'The proxy returned a different closure on repeated method access').toBe(
+    covering.dumb,
+  );
+});
+
+test('resolves method when accessed with a primitive receiver', (): void => {
+  const object = { dumb: (): number[] => [] };
+  const shifts: ShiftsOut<typeof object> = { dumb: (value) => value };
+  const covering = alterOut(object, shifts);
+  const receiver = 42;
+  const resolved = Reflect.get(covering, 'dumb', receiver);
+  expect(typeof resolved, 'Failed to resolve method when accessed with a primitive receiver').toBe(
+    'function',
+  );
+});
+
+test('bypasses method cache when accessed with a primitive receiver', (): void => {
+  const object = { dumb: (): number[] => [] };
+  const shifts: ShiftsOut<typeof object> = { dumb: (value) => value };
+  const covering = alterOut(object, shifts);
+  const receiver = 42;
+  const first = Reflect.get(covering, 'dumb', receiver);
+  const second = Reflect.get(covering, 'dumb', receiver);
+  expect(
+    first,
+    'A primitive receiver was erroneously cached despite not being a valid WeakMap key',
+  ).not.toBe(second);
+});
