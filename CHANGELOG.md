@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.1.2](https://github.com/illia-m-b/veils-js/compare/veils-js-v0.1.1...veils-js-v0.1.2) (2026-09-11)
+
+
+### Bug Fixes
+
+This massive architectural upgrade resolves multiple critical bugs and refactors the internal caching strategy:
+
+* Enforce ECMAScript Proxy `[[Get]]` invariants for frozen properties (resolves #125).
+* Wrap getters as data properties to prevent heavy lifting on cached accesses (resolves #99).
+* Ignore implicit engine lookups (e.g., `.then`, `Symbol`) to prevent async code from piercing the veil (resolves #98, #109).
+* Refactor decorators (`alterIn`, `alterOut`, `cloak`) to use the new `Members` factory (resolves #106, #107, #108).
+* Ensure method wrappers safely capture arguments with `..._arguments: unknown[]` (resolves #97).
+* Support asynchronous (`Thenable`) method unwrapping in `alterOut` (resolves #96).
+* Implement `WeakMap`-based caching to preserve referential transparency for proxy methods.
+
 ## [0.1.1](https://github.com/illia-m-b/veils-js/compare/veils-js-v0.1.0...veils-js-v0.1.1) (2026-09-08)
 
 
