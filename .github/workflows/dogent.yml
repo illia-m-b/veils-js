@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Illia Brashkin
+# SPDX-License-Identifier: MIT
+---
+# yamllint disable rule:line-length
+name: dogent
+'on':
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: read
+jobs:
+  dogent:
+    runs-on: ubuntu-slim
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: npm exec --yes --ignore-scripts --no-audit --no-fund -- @yegor256/dogent@0.13.3 AGENTS.md
+        env:
+          OPENAI_BASE_URL: https://api.groq.com/openai/v1
+          OPENAI_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENAI_MODEL: openai/gpt-oss-120b
