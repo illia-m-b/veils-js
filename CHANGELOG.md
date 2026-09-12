@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0](https://github.com/illia-m-b/veils-js/compare/veils-js-v0.1.2...veils-js-v1.0.0) (2026-09-12)
+
+
+### Code Refactoring
+
+* Transition to kebab-case filenames and clean up eslint config ([5e0996a](https://github.com/illia-m-b/veils-js/commit/5e0996adbf1f45ab9751c3da15b617a6a425f98f))
+
 ## [0.1.2](https://github.com/illia-m-b/veils-js/compare/veils-js-v0.1.1...veils-js-v0.1.2) (2026-09-11)
 
 
