@@ -5,8 +5,8 @@
 
 import { expect, test } from 'vitest';
 
-import type { Policy } from '../src/Policy.js';
-import type { VeilCache } from '../src/VeilCache.js';
+import type { Policy } from '../src/policy.js';
+import type { VeilCache } from '../src/veil-cache.js';
 
 import { cloak } from '../src/cloak.js';
 

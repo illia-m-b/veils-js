@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: MIT
  */
 
-export { alterIn } from './alterIn.js';
-export { alterOut } from './alterOut.js';
+export { alterIn } from './alter-in.js';
+export { alterOut } from './alter-out.js';
 export { cloak } from './cloak.js';
-export type { Policy } from './Policy.js';
-export type { ShiftsIn } from './ShiftsIn.js';
-export type { ShiftsOut } from './ShiftsOut.js';
+export type { Policy } from './policy.js';
+export type { ShiftsIn } from './shifts-in.js';
+export type { ShiftsOut } from './shifts-out.js';
+export { unpiercablePolicy } from './unpiercable-policy.js';
 export { unpiercable } from './unpiercable.js';
-export { unpiercablePolicy } from './unpiercablePolicy.js';
+export type { VeilCache } from './veil-cache.js';
+export { veilPolicy } from './veil-policy.js';
 export { veil } from './veil.js';
-export type { VeilCache } from './VeilCache.js';
-export { veilPolicy } from './veilPolicy.js';

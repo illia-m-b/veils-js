@@ -5,7 +5,7 @@
 
 import { expectTypeOf, test } from 'vitest';
 
-import type { ShiftsOut } from '../src/ShiftsOut.js';
+import type { ShiftsOut } from '../src/shifts-out.js';
 
 test('infers output shifts correctly', (): void => {
   interface Post {

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import type { Member } from './Member.js';
+import type { Member } from './member.js';
 
 import { method } from './method.js';
 import { property } from './property.js';

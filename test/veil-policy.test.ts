@@ -5,9 +5,9 @@
 
 import { expect, test } from 'vitest';
 
-import type { Policy } from '../src/Policy.js';
+import type { Policy } from '../src/policy.js';
 
-import { veilPolicy } from '../src/veilPolicy.js';
+import { veilPolicy } from '../src/veil-policy.js';
 
 test('allows access to cached property when veil is intact', (): void => {
   const policy: Policy = veilPolicy();

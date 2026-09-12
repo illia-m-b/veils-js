@@ -5,7 +5,7 @@
 
 import { expectTypeOf, test } from 'vitest';
 
-import { ShiftsIn } from '../src/ShiftsIn.js';
+import { ShiftsIn } from '../src/shifts-in.js';
 
 test('infers input shifts correctly', (): void => {
   interface Page {

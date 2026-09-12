@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-import type { Member } from './Member.js';
+import type { Member } from './member.js';
 import type { Members } from './members.js';
-import type { ShiftsIn } from './ShiftsIn.js';
+import type { ShiftsIn } from './shifts-in.js';
 
 import { members } from './members.js';
 

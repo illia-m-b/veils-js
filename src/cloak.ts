@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-import type { Policy } from './Policy.js';
-import type { VeilCache } from './VeilCache.js';
+import type { Policy } from './policy.js';
+import type { VeilCache } from './veil-cache.js';
 
-import { Member } from './Member.js';
+import { Member } from './member.js';
 import { members, Members } from './members.js';
 
 /**

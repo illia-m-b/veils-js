@@ -5,9 +5,9 @@
 
 import { expect, test } from 'vitest';
 
-import type { ShiftsOut } from '../src/ShiftsOut.js';
+import type { ShiftsOut } from '../src/shifts-out.js';
 
-import { alterOut } from '../src/alterOut.js';
+import { alterOut } from '../src/alter-out.js';
 
 test('returns original value when there is no corresponding transformer function', (): void => {
   class DumbMath {

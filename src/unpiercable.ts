@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-import type { VeilCache } from './VeilCache.js';
+import type { VeilCache } from './veil-cache.js';
 
 import { cloak } from './cloak.js';
-import { unpiercablePolicy } from './unpiercablePolicy.js';
+import { unpiercablePolicy } from './unpiercable-policy.js';
 
 /**
  * Creates an unpiercable wrapper around the given object.

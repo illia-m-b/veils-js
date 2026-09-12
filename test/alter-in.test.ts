@@ -5,9 +5,9 @@
 
 import { expect, test } from 'vitest';
 
-import type { ShiftsIn } from '../src/ShiftsIn.js';
+import type { ShiftsIn } from '../src/shifts-in.js';
 
-import { alterIn } from '../src/alterIn.js';
+import { alterIn } from '../src/alter-in.js';
 
 test('returns original value for a property', (): void => {
   interface User {

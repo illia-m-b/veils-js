@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import type { Policy } from './Policy.js';
+import type { Policy } from './policy.js';
 
 /**
  * @returns A policy for an unpiercable veil. Regardless of the accessed
