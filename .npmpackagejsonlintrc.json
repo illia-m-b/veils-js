@@ -51,7 +51,7 @@
     "prefer-no-version-zero-devDependencies": [
       "error",
       {
-        "exceptions": ["eslint-plugin-tsdoc"]
+        "exceptions": ["eslint-plugin-tsdoc", "@yegor256/dogent"]
       }
     ],
     "prefer-no-version-zero-peerDependencies": "error"
