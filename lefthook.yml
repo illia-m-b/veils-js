@@ -21,6 +21,9 @@ pre-commit:
       glob: '**/*.{js,ts,cjs,mjs,json,jsonc,md,yml,yaml}'
       run: npm exec -- prettier --write --ignore-unknown {staged_files}
       stage_fixed: true
+    lint-agents:
+      glob: 'AGENTS.md'
+      run: npm run lint:agents
 pre-push:
   parallel: true
   commands:
