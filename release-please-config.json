@@ -3,7 +3,8 @@
     ".": {
       "release-type": "node",
       "bump-minor-pre-major": true,
-      "changelog-type": "default"
+      "changelog-type": "default",
+      "extra-files": ["SECURITY.md"]
     }
   }
 }
