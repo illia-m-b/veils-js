@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-import type { VeilCache } from './VeilCache.js';
+import type { VeilCache } from './veil-cache.js';
 
 import { cloak } from './cloak.js';
-import { veilPolicy } from './veilPolicy.js';
+import { veilPolicy } from './veil-policy.js';
 
 /**
  * Creates a standard, piercable wrapper around the given object.

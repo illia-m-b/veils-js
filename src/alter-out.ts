@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-import type { ShiftsOut } from './ShiftsOut.js';
+import type { ShiftsOut } from './shifts-out.js';
 
-import { Member } from './Member.js';
+import { Member } from './member.js';
 import { members, Members } from './members.js';
 
 /**

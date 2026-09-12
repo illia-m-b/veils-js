@@ -5,7 +5,7 @@
 
 import { expect, test } from 'vitest';
 
-import type { VeilCache } from '../src/VeilCache.js';
+import type { VeilCache } from '../src/veil-cache.js';
 
 import { veil } from '../src/veil.js';
 

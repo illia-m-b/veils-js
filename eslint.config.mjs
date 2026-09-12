@@ -66,11 +66,7 @@ export default defineConfig([
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
       'tsdoc/syntax': 'error',
       'import-x/no-cycle': 'error',
-      'import-x/no-unused-modules': 'off',
       'no-console': 'error',
-      'unicorn/filename-case': 'off',
-      'unicorn/no-empty-file': 'off',
-      'unicorn/prevent-abbreviations': 'off',
       'no-extend-native': 'error',
       'no-proto': 'error',
       'no-restricted-imports': [

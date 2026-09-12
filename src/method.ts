@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-import type { Member } from './Member.js';
+import type { Member } from './member.js';
 
-import { hasGetInvariant } from './hasGetInvariant.js';
+import { hasGetInvariant } from './has-get-invariant.js';
 
 interface Thenable {
   then(onFulfilled: (value: unknown) => unknown): unknown;

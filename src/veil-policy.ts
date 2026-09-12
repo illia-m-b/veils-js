@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import type { Policy } from './Policy.js';
+import type { Policy } from './policy.js';
 
 /**
  * A set of property keys that are implicitly accessed by the JavaScript engine,

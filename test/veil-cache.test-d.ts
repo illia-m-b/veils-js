@@ -5,7 +5,7 @@
 
 import { expectTypeOf, test } from 'vitest';
 
-import type { VeilCache } from '../src/VeilCache.js';
+import type { VeilCache } from '../src/veil-cache.js';
 
 test('infers cache types correctly', (): void => {
   interface Page {

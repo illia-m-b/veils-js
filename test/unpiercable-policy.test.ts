@@ -5,9 +5,9 @@
 
 import { expect, test } from 'vitest';
 
-import type { Policy } from '../src/Policy.js';
+import type { Policy } from '../src/policy.js';
 
-import { unpiercablePolicy } from '../src/unpiercablePolicy.js';
+import { unpiercablePolicy } from '../src/unpiercable-policy.js';
 
 test.for<[boolean, boolean]>([
   [true, true],

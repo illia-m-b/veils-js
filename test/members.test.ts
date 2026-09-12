@@ -5,7 +5,7 @@
 
 import { expect, test } from 'vitest';
 
-import type { Member } from '../src/Member.js';
+import type { Member } from '../src/member.js';
 
 import { members } from '../src/members.js';
 

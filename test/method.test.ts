@@ -5,7 +5,7 @@
 
 import { expect, test } from 'vitest';
 
-import { Member } from '../src/Member.js';
+import { Member } from '../src/member.js';
 import { method } from '../src/method.js';
 
 test('retrieves the unbound original function', (): void => {
