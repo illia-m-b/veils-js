@@ -10,6 +10,8 @@ name: npm
   pull_request:
     branches:
       - main
+permissions:
+  contents: read
 jobs:
   npm:
     timeout-minutes: 15

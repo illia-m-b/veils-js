@@ -10,6 +10,8 @@ name: reuse
   pull_request:
     branches:
       - main
+permissions:
+  contents: read
 jobs:
   reuse:
     timeout-minutes: 15
