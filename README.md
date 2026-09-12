@@ -8,15 +8,17 @@ Dynamic Nature_
 
 [![npm version](https://img.shields.io/npm/v/veils-js)](https://www.npmjs.com/package/veils-js)
 [![CI](https://img.shields.io/github/actions/workflow/status/illia-m-b/veils-js/npm.yml?branch=main&label=CI)](https://github.com/illia-m-b/veils-js/actions/workflows/npm.yml)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](https://github.com/illia-m-b/veils-js/blob/main/vitest.config.ts)
+[![Zero Dependencies](https://img.shields.io/badge/Dependencies-0-brightgreen)](https://www.npmjs.com/package/veils-js?activeTab=dependencies)
 [![TypeScript](https://img.shields.io/badge/TypeScript-blue?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Node.js](https://img.shields.io/badge/Node.js-22.x%20||%2024.x%20||%20>=26-3c873a)](https://nodejs.org)
-[![Zero Dependencies](https://img.shields.io/badge/Dependencies-0-green)](https://www.npmjs.com/package/veils-js)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/illia-m-b/veils/blob/master/LICENSE.txt)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/illia-m-b/veils/blob/main/LICENSE.txt)
 
 [Overview](#overview) &bull;
 [Installation](#installation) &bull;
 [Usage](#usage) &bull;
 [Use Cases](#use-case-sql-speaking-objects) &bull;
+[Limitations](#limitations) &bull;
 [Contributing](CONTRIBUTING.md)
 
 > [!TIP]
@@ -25,7 +27,7 @@ Dynamic Nature_
 ## Overview
 
 In object-oriented programming, objects should represent live entities, not just
-passive data holders (DTOs). The `veils-js` library allows you to create smart
+passive data holders (DTOs). The Veils.js library allows you to create smart
 wrappers around your objects that cache reads until the first write, seamlessly
 combining the efficiency of a DTO with the elegance of OOP.
 
@@ -39,23 +41,24 @@ npm install veils-js
 
 ### Supported Declarations
 
-You are able to decorate object properties as well as any format of method
-declaration:
+You can decorate object properties, getters, and any method declaration format:
 
 ```typescript
 const object = {
   property: 'property',
+  get getter() {},
   es6Method() {},
   anonymousFunction: function () {},
   nfe: function namedFunctionExpression() {},
+  async asyncMethod() {},
 };
 ```
 
 > [!CAUTION]
-> Decoration of class instances can only be done if no private elements are
-> utilized. Refer to
-> the ["working with private elements"](#working-with-private-elements) section
-> for more details.
+> Because Veils.js relies on JavaScript `Proxy` objects, there are specific
+> limitations regarding frozen properties, built-in objects (such as `Map` or
+> `Date`), and class instances with `#private` elements. Be sure to read
+> the [Limitations](#limitations) section for more details.
 
 ### Basic Veil
 
@@ -70,16 +73,12 @@ const john: User = {
     return 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
   },
 };
-
-const cache: VeilCache<User> = {
-  hash: 'cached-hash-value',
-};
-
+const cache: VeilCache<User> = { hash: 'cached-hash-value' };
 const covering: User = veil(john, cache);
 ```
 
-When calling the `hash()` method, the `'cached-hash-value'` string will be
-returned instantly without executing the method body. This cached value is
+Calling the `hash()` method instantly returns the `'cached-hash-value'` string
+without executing the method body. This cached value is
 served until an uncached property (like `name`) is accessed or a mutation
 occurs, at which point the veil is "pierced."
 
@@ -90,8 +89,8 @@ arguments passed.
 
 ### Alter Output
 
-You can try `alterOut`, which lets you modify the output of object methods on
-the fly:
+The `alterOut` decorator lets you modify the output of object methods on the
+fly:
 
 ```typescript
 import { alterOut } from 'veils-js';
@@ -106,8 +105,9 @@ const covering: User = alterOut(john, shifts);
 
 ### Alter Input
 
-There is also the `alterIn` decorator, to modify incoming method arguments (the
-result of the transformer function will replace the list of input arguments):
+The `alterIn` decorator modifies incoming method arguments before they reach the
+target object. The result of your transformer function replaces the original
+arguments:
 
 ```typescript
 import { alterIn } from 'veils-js';
@@ -124,7 +124,7 @@ const shifts: ShiftsIn<User> = {
 const covering: User = alterIn(dude, shifts);
 ```
 
-## Use case: SQL-speaking objects
+## Use Case: SQL-Speaking Objects
 
 Imagine a `Project` object that fetches its
 properties [directly][link-sql-objects] from a PostgreSQL database:
@@ -170,7 +170,7 @@ const projects = () => ({
 Now you have real, smart objects. When `project.name()` is called, it instantly
 returns the cached promise without hitting the database.
 
-## Creating custom veil decorators
+## Creating Custom Veil Decorators
 
 In fact, [`veil`][link-veil] and [`unpiercable`][link-unpiercable] are just
 high-level factory functions. They both use the [`cloak`][link-cloak] function
@@ -206,7 +206,60 @@ export const immutableVeil = <T extends object>(object: T, cache: NoInfer<VeilCa
 
 <!-- markdownlint-restore -->
 
-## Working with private elements
+## Limitations
+
+### Frozen Properties
+
+> [!CAUTION]
+> The library relies on JavaScript `Proxy` objects, which must comply
+> with [ECMAScript invariants][link-es-invariants]. A `Proxy` cannot alter the
+> return value of a property if it is a non-configurable, non-writable own data
+> property (for instance, properties on [frozen objects][link-object-freeze]).
+
+To prevent breaking the `[[Get]]` invariant and causing a `TypeError`, all
+decorators will **silently ignore** cache entries and transformer functions for
+frozen properties. Accessing them will always yield the original, unaltered
+value.
+
+```typescript
+import type { ShiftsOut } from 'veils-js';
+import { alterOut } from 'veils-js';
+
+const frozen = Object.freeze({ name: 'John' });
+const shifts: ShiftsOut<typeof frozen> = {
+  name: (original: string): string => original.toUpperCase(),
+};
+
+const covering = alterOut(frozen, shifts);
+
+// The transformer is silently ignored to comply with Proxy invariants
+covering.name; // 'John'
+```
+
+### Built-in Objects and Internal Slots
+
+> [!CAUTION]
+> The Veils.js library uses `Proxy` to wrap your objects. In
+> ECMAScript, [Proxy objects do not forward internal slots][link-proxy-internal]
+> (like `[[MapData]]`, `[[DateValue]]`, or `[[PromiseState]]`). As a result, you
+> **cannot** use these decorators directly on most built-in objects (such as
+> `Map`, `Set`, `Date`, or `Promise`).
+
+When a method of a built-in object is executed via a Veil proxy, the receiver
+(`this` context) is the Proxy itself, which lacks the required internal slot,
+throwing a `TypeError`:
+
+```typescript
+import { veil } from 'veils-js';
+
+const map = new Map();
+const covering = veil(map, { size: 10 });
+
+// TypeError: Method Map.prototype.set called on incompatible receiver
+covering.set('a', 1);
+```
+
+### Private Elements
 
 > [!CAUTION]
 > All decorators are "deep", which means that internal method or property
@@ -293,7 +346,10 @@ covering.greeting(); // 'HELLO, JOHN!'
 [link-closure-encapsulation]: https://www.crockford.com/javascript/private.html
 [link-decorator]: https://refactoring.guru/design-patterns/decorator
 [link-dtos]: https://www.yegor256.com/2016/07/06/data-transfer-object.html
+[link-es-invariants]: https://tc39.es/ecma262/#sec-invariants-of-the-essential-internal-methods
+[link-object-freeze]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
 [link-privates]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_elements
+[link-proxy-internal]: https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots
 [link-proxy-limitations]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy#no_private_field_forwarding
 [link-sql-objects]: https://www.yegor256.com/2014/12/01/orm-offensive-anti-pattern.html
 [link-strategy]: https://refactoring.guru/design-patterns/strategy
