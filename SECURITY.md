@@ -9,10 +9,10 @@ rules, zero runtime dependencies, and cryptographic provenance.
 Because Veils.js is an unfunded free and open-source project, **only the latest
 version is supported** with security updates.
 
-| Version                               | Supported          |
-| ------------------------------------- | ------------------ |
-| 0.1.x <!-- x-release-please-minor --> | :white_check_mark: |
-| < 0.1 <!-- x-release-please-minor --> | :x:                |
+| Version                                      | Supported          |
+| -------------------------------------------- | ------------------ |
+| 1.0.0 <!-- x-release-please-version -->      | :white_check_mark: |
+| &lt; 1.0.0 <!-- x-release-please-version --> | :x:                |
 
 ## Reporting a Vulnerability
 
