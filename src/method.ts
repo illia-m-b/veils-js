@@ -90,7 +90,10 @@ export const method = (target: object, key: string | symbol): Member => {
   const cacheOut = new WeakMap<object, unknown>();
   const cacheVeiled = new WeakMap<object, unknown>();
   return {
-    shiftedIn: (shift: (...arguments_: unknown[]) => unknown[], receiver: unknown): unknown => {
+    shiftedIn: (
+      shift: () => (...arguments_: unknown[]) => unknown[],
+      receiver: unknown,
+    ): unknown => {
       if (hasGetInvariant(target, key)) {
         return resolved(target, key, receiver);
       }
@@ -99,14 +102,14 @@ export const method = (target: object, key: string | symbol): Member => {
         if (cached !== undefined) return cached;
       }
       const covering = (...parameters: unknown[]): unknown =>
-        execute(target, key, receiver, shift(...parameters));
+        execute(target, key, receiver, shift()(...parameters));
       if (isWeakKey(receiver)) {
         cacheIn.set(receiver, covering);
       }
       return covering;
     },
 
-    shiftedOut: (shift: (argument: unknown) => unknown, receiver: unknown): unknown => {
+    shiftedOut: (shift: () => (argument: unknown) => unknown, receiver: unknown): unknown => {
       if (hasGetInvariant(target, key)) {
         return resolved(target, key, receiver);
       }
@@ -117,7 +120,7 @@ export const method = (target: object, key: string | symbol): Member => {
       const covering = (...parameters: unknown[]): unknown => {
         const evaluated = execute(target, key, receiver, parameters);
         // eslint-disable-next-line unicorn/prefer-await
-        return isThenable(evaluated) ? evaluated.then(shift) : shift(evaluated);
+        return isThenable(evaluated) ? evaluated.then(shift()) : shift()(evaluated);
       };
       if (isWeakKey(receiver)) {
         cacheOut.set(receiver, covering);
@@ -127,7 +130,7 @@ export const method = (target: object, key: string | symbol): Member => {
 
     value: (receiver: unknown): unknown => resolved(target, key, receiver),
 
-    veiled: (cached: unknown, receiver: unknown): unknown => {
+    veiled: (cached: () => unknown, receiver: unknown): unknown => {
       if (hasGetInvariant(target, key)) {
         return resolved(target, key, receiver);
       }
@@ -135,7 +138,7 @@ export const method = (target: object, key: string | symbol): Member => {
         const existing = cacheVeiled.get(receiver);
         if (existing !== undefined) return existing;
       }
-      const covering = (..._arguments: unknown[]): unknown => cached;
+      const covering = (..._arguments: unknown[]): unknown => cached();
       if (isWeakKey(receiver)) {
         cacheVeiled.set(receiver, covering);
       }

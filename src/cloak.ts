@@ -48,7 +48,7 @@ export const cloak = <T extends object>(
     get(_target: T, property: string | symbol, receiver: unknown) {
       const member: Member = collection.member(property);
       if (policy.verdict(property, Object.hasOwn(cache, property))) {
-        return member.veiled(cache[property as keyof T], receiver);
+        return member.veiled(() => cache[property as keyof T], receiver);
       }
       return member.value(receiver);
     },

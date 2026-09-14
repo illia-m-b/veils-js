@@ -9,6 +9,8 @@ import type { Member } from '../src/member.js';
 
 import { property } from '../src/property.js';
 
+/* eslint-disable unicorn/consistent-function-scoping */
+
 test('returns original value', (): void => {
   const target = 'target';
   const receiver = 'receiver';
@@ -38,7 +40,10 @@ test('ignores transformers and returns actual value', (): void => {
   const original = new Target();
   const member: Member = property(original, 'name');
   expect(
-    [member.shiftedIn(() => [], original), member.shiftedIn(() => [], { _name: receiver })],
+    [
+      member.shiftedIn(() => () => [], original),
+      member.shiftedIn(() => () => [], { _name: receiver }),
+    ],
     'The property incorrectly applied an input transformer, instead of ignoring it',
   ).toStrictEqual([target, receiver]);
 });
@@ -56,8 +61,8 @@ test('applies transformer function to the actual value', (): void => {
   const member: Member = property(original, 'name');
   expect(
     [
-      member.shiftedOut((s) => String(s).toUpperCase(), original),
-      member.shiftedOut((s) => String(s).trim(), { _name: receiver }),
+      member.shiftedOut(() => (s) => String(s).toUpperCase(), original),
+      member.shiftedOut(() => (s) => String(s).trim(), { _name: receiver }),
     ],
     'The property failed to apply the output transformer to the retrieved value',
   ).toStrictEqual([target.toUpperCase(), receiver.trim()]);
@@ -68,7 +73,7 @@ test('returns cached value', (): void => {
   const cached = 'Jack';
   const member: Member = property(john, 'name');
   expect(
-    member.veiled(cached, john),
+    member.veiled(() => cached, john),
     'The property returned the actual value instead of the provided cached one',
   ).toBe(cached);
 });
@@ -85,7 +90,8 @@ test('respects proxy invariants', (): void => {
   );
   const cached = Symbol(Math.random());
   const member: Member = property(object, 'dumb');
-  expect(member.veiled(cached, object), 'Cached value was returned for a frozen property').toBe(
-    original,
-  );
+  expect(
+    member.veiled(() => cached, object),
+    'Cached value was returned for a frozen property',
+  ).toBe(original);
 });

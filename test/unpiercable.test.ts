@@ -94,3 +94,18 @@ test('mutates the original object upon property assignment', (): void => {
     mutated,
   );
 });
+
+test('reflects cache mutations dynamically for veiled methods', (): void => {
+  const maths = { maths: (): number => Math.random() };
+  const original = Math.random();
+  const mutated = Math.random();
+  const cache: VeilCache<typeof maths> = { maths: original };
+  const covering = unpiercable(maths, cache);
+  const calls: number[] = [covering.maths()];
+  cache.maths = mutated;
+  calls.push(covering.maths());
+  expect(calls, 'Unpiercable veil ignored cache mutation and served outdated value').toStrictEqual([
+    original,
+    mutated,
+  ]);
+});

@@ -137,3 +137,19 @@ test('bypasses method cache when accessed with a primitive receiver', (): void =
     'A primitive receiver was erroneously cached despite not being a valid WeakMap key',
   ).not.toBe(second);
 });
+
+test('reflects shift mutations dynamically for transformed methods', (): void => {
+  const object = { dumb: (n: number): number => n };
+  const shifts: ShiftsIn<typeof object> = { dumb: (n: number): [number] => [n * 2] };
+  const covering = alterIn(object, shifts);
+  const original = Math.random();
+  const doubled = original * 2;
+  const tripled = original * 3;
+  const calls = [covering.dumb(original)];
+  shifts.dumb = (n: number): [number] => [n * 3];
+  calls.push(covering.dumb(original));
+  expect(
+    calls,
+    'Decorator ignored shift mutation and applied outdated transformer function',
+  ).toStrictEqual([doubled, tripled]);
+});
