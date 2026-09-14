@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/illia-m-b/veils-js/compare/veils-js-v1.0.1...veils-js-v1.0.2) (2026-09-14)
+
+
+### Bug Fixes
+
+* **shifts-out:** support thenables and convert throwing then-getters to rejection ([#182](https://github.com/illia-m-b/veils-js/issues/182)) ([7432780](https://github.com/illia-m-b/veils-js/commit/743278064d42f283d3ef997155ecf92d18cda374))
+
 ## [1.0.1](https://github.com/illia-m-b/veils-js/compare/veils-js-v1.0.0...veils-js-v1.0.1) (2026-09-14)
 
 
