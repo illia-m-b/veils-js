@@ -196,3 +196,41 @@ test('reflects transformer mutations dynamically for shifted methods', (): void 
     'Decorator ignored shift mutation and applied outdated transformer function',
   ).toStrictEqual([doubled, tripled]);
 });
+
+test('rejects with original Error when then-getter throws an Error instance', async (): Promise<void> => {
+  const object = {
+    thenable: () => ({
+      // eslint-disable-next-line unicorn/no-thenable
+      get then(): never {
+        throw new Error('Boom!');
+      },
+    }),
+  };
+  const shifts: ShiftsOut<typeof object> = { thenable: (result: never): never => result };
+  const covering = alterOut(object, shifts);
+  await expect(
+    covering.thenable(),
+    'Failed to catch the synchronous getter exception and convert it into a Promise rejection',
+  ).rejects.toThrow('Boom!');
+});
+
+test('rejects with wrapped Error when then-getter throws a non-Error exception', async (): Promise<void> => {
+  const number = Math.random();
+  const object = {
+    thenable: () => ({
+      // eslint-disable-next-line unicorn/no-thenable
+      get then(): never {
+        throw number; // eslint-disable-line @typescript-eslint/only-throw-error
+      },
+    }),
+  };
+  const shifts: ShiftsOut<typeof object> = { thenable: (result: never): never => result };
+  const covering = alterOut(object, shifts);
+  await expect(
+    covering.thenable(),
+    'Failed to normalize a raw number exception from the getter into a standard Error object',
+  ).rejects.toMatchObject({
+    cause: number,
+    message: 'Promise getter threw a non-Error exception',
+  });
+});

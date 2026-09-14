@@ -7,18 +7,8 @@ import type { Member } from './member.js';
 
 import { hasGetInvariant } from './has-get-invariant.js';
 
-interface Thenable {
-  then(onFulfilled: (value: unknown) => unknown): unknown;
-}
-
 const isFunction = (value: unknown): value is (...arguments_: unknown[]) => unknown =>
   typeof value === 'function';
-
-const isThenable = (value: unknown): value is Thenable =>
-  value !== null &&
-  (typeof value === 'object' || typeof value === 'function') &&
-  'then' in value &&
-  typeof value.then === 'function';
 
 /**
  * Resolves the underlying property value.
@@ -44,7 +34,7 @@ const resolved = (target: object, key: string | symbol, receiver: unknown): unkn
  *
  * @throws `TypeError` if the resolved property is not a function.
  */
-const execute = (
+const executed = (
   target: object,
   key: string | symbol,
   receiver: unknown,
@@ -102,7 +92,7 @@ export const method = (target: object, key: string | symbol): Member => {
         if (cached !== undefined) return cached;
       }
       const covering = (...parameters: unknown[]): unknown =>
-        execute(target, key, receiver, shift()(...parameters));
+        executed(target, key, receiver, shift()(...parameters));
       if (isWeakKey(receiver)) {
         cacheIn.set(receiver, covering);
       }
@@ -118,9 +108,25 @@ export const method = (target: object, key: string | symbol): Member => {
         if (cached !== undefined) return cached;
       }
       const covering = (...parameters: unknown[]): unknown => {
-        const evaluated = execute(target, key, receiver, parameters);
-        // eslint-disable-next-line unicorn/prefer-await
-        return isThenable(evaluated) ? evaluated.then(shift()) : shift()(evaluated);
+        const evaluated = executed(target, key, receiver, parameters);
+        if (
+          evaluated !== null &&
+          (typeof evaluated === 'object' || typeof evaluated === 'function')
+        ) {
+          try {
+            const then = (evaluated as { then?: unknown }).then;
+            if (typeof then === 'function') {
+              return Reflect.apply(then, evaluated, [shift()]);
+            }
+          } catch (error: unknown) {
+            return Promise.reject(
+              error instanceof Error
+                ? error
+                : new Error('Promise getter threw a non-Error exception', { cause: error }),
+            );
+          }
+        }
+        return shift()(evaluated);
       };
       if (isWeakKey(receiver)) {
         cacheOut.set(receiver, covering);
