@@ -35,16 +35,16 @@ const resolved = (target: object, key: string | symbol, receiver: unknown): unkn
  * @internal
  */
 export const property = (target: object, key: string | symbol): Member => ({
-  shiftedIn: (_shift: (...arguments_: unknown[]) => unknown[], receiver: unknown): unknown =>
+  shiftedIn: (_shift: () => (...arguments_: unknown[]) => unknown[], receiver: unknown): unknown =>
     resolved(target, key, receiver),
 
-  shiftedOut: (shift: (argument: unknown) => unknown, receiver: unknown): unknown =>
+  shiftedOut: (shift: () => (argument: unknown) => unknown, receiver: unknown): unknown =>
     hasGetInvariant(target, key)
       ? resolved(target, key, receiver)
-      : shift(resolved(target, key, receiver)),
+      : shift()(resolved(target, key, receiver)),
 
   value: (receiver: unknown): unknown => resolved(target, key, receiver),
 
-  veiled: (cached: unknown, receiver: unknown): unknown =>
-    hasGetInvariant(target, key) ? resolved(target, key, receiver) : cached,
+  veiled: (cached: () => unknown, receiver: unknown): unknown =>
+    hasGetInvariant(target, key) ? resolved(target, key, receiver) : cached(),
 });

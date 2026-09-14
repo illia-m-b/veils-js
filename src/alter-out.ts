@@ -37,7 +37,7 @@ export const alterOut = <T extends object>(object: T, shifts: NoInfer<ShiftsOut<
         return member.value(receiver);
       }
       return member.shiftedOut(
-        shifts[property as keyof T] as (..._arguments: unknown[]) => unknown,
+        () => shifts[property as keyof T] as (..._arguments: unknown[]) => unknown,
         receiver,
       );
     },
