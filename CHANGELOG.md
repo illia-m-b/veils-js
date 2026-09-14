@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/illia-m-b/veils-js/compare/veils-js-v1.0.0...veils-js-v1.0.1) (2026-09-14)
+
+
+### Bug Fixes
+
+* evaluate cache and shift mutations dynamically in method closures ([#178](https://github.com/illia-m-b/veils-js/issues/178)) ([3a91408](https://github.com/illia-m-b/veils-js/commit/3a91408a3092d2069f068f8009d2b71e6f0c9a3c))
+
 ## [1.0.0](https://github.com/illia-m-b/veils-js/compare/veils-js-v0.1.2...veils-js-v1.0.0) (2026-09-12)
 
 
