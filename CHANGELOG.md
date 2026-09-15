@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/illia-m-b/veils-js/compare/veils-js-v1.0.2...veils-js-v1.0.3) (2026-09-15)
+
+
+### Bug Fixes
+
+* **cloak:** notify policy about mutation with `Object.definePropery` and deletion ([#187](https://github.com/illia-m-b/veils-js/issues/187)) ([e201362](https://github.com/illia-m-b/veils-js/commit/e2013623e9555d78b3245a813ea1283c9d881725))
+
 ## [1.0.2](https://github.com/illia-m-b/veils-js/compare/veils-js-v1.0.1...veils-js-v1.0.2) (2026-09-14)
 
 
