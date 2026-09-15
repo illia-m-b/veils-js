@@ -11,8 +11,8 @@ version is supported** with security updates.
 
 | Version                                      | Supported          |
 | -------------------------------------------- | ------------------ |
-| 1.0.2 <!-- x-release-please-version -->      | :white_check_mark: |
-| &lt; 1.0.2 <!-- x-release-please-version --> | :x:                |
+| 1.0.3 <!-- x-release-please-version -->      | :white_check_mark: |
+| &lt; 1.0.3 <!-- x-release-please-version --> | :x:                |
 
 ## Reporting a Vulnerability
 
