@@ -45,6 +45,22 @@ export const cloak = <T extends object>(
 ): T => {
   const collection: Members = members(object);
   return new Proxy(object, {
+    defineProperty(target: T, property: string | symbol, attributes: PropertyDescriptor): boolean {
+      const isDefined = Reflect.defineProperty(target, property, attributes);
+      if (isDefined) {
+        policy.onMutate(property);
+      }
+      return isDefined;
+    },
+
+    deleteProperty(target: T, property: string | symbol): boolean {
+      const isDeleted = Reflect.deleteProperty(target, property);
+      if (isDeleted) {
+        policy.onMutate(property);
+      }
+      return isDeleted;
+    },
+
     get(_target: T, property: string | symbol, receiver: unknown) {
       const member: Member = collection.member(property);
       if (policy.verdict(property, Object.hasOwn(cache, property))) {

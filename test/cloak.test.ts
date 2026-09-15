@@ -139,3 +139,80 @@ test('bypasses method cache when accessed with a primitive receiver', (): void =
     'A primitive receiver was erroneously cached despite not being a valid WeakMap key',
   ).not.toBe(second);
 });
+
+test('notifies a policy when a property is mutated with Object.defineProperty()', (): void => {
+  const john = { name: 'John' };
+  const cache: VeilCache<typeof john> = { name: 'Jack' };
+  let isMutated = false;
+  const covering = cloak(john, cache, {
+    onMutate: () => {
+      isMutated = true;
+    },
+    verdict: () => true,
+  });
+  Object.defineProperty(covering, 'name', { value: 'James' });
+  expect(
+    isMutated,
+    'Mutating a property with Object.defineProperty() was not considered as mutation',
+  ).toBe(true);
+});
+
+test('does not notify a policy when mutation with Object.defineProperty() fails', (): void => {
+  const john = { name: 'John' };
+  Object.defineProperty(john, 'name', { configurable: false, writable: false });
+  const cache: VeilCache<typeof john> = { name: 'Jack' };
+  let isMutated = false;
+  const covering = cloak(john, cache, {
+    onMutate: () => {
+      isMutated = true;
+    },
+    verdict: () => true,
+  });
+  try {
+    Object.defineProperty(covering, 'name', { value: 'James' });
+  } catch {} // eslint-disable-line no-empty
+  expect(
+    isMutated,
+    'Policy is always notified about mutation despite the actual result of the mutation',
+  ).toBe(false);
+});
+
+test('notifies a policy when a property is deleted', (): void => {
+  interface Dude {
+    name?: string;
+  }
+  const john: Dude = { name: 'John' };
+  const cache: VeilCache<Dude> = { name: 'Jack' };
+  let isMutated = false;
+  const covering: Dude = cloak(john, cache, {
+    onMutate: () => {
+      isMutated = true;
+    },
+    verdict: () => true,
+  });
+  delete covering.name;
+  expect(isMutated, 'Property deletion was not considered as mutation').toBe(true);
+});
+
+test('does not notify a policy when deletion fails', (): void => {
+  interface Dude {
+    name?: string;
+  }
+  const john: Dude = { name: 'John' };
+  Object.defineProperty(john, 'name', { configurable: false });
+  const cache: VeilCache<Dude> = { name: 'Jack' };
+  let isMutated = false;
+  const covering: Dude = cloak(john, cache, {
+    onMutate: () => {
+      isMutated = true;
+    },
+    verdict: () => true,
+  });
+  try {
+    delete covering.name;
+  } catch {} // eslint-disable-line no-empty
+  expect(
+    isMutated,
+    'Policy is always notified about mutation despite the actual result of the deletion',
+  ).toBe(false);
+});
