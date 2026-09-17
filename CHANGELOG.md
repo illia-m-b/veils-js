@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/illia-m-b/veils-js/compare/veils-js-v1.0.3...veils-js-v1.0.4) (2026-09-17)
+
+
+### Bug Fixes
+
+* **cloak:** implement the `getOwnPropertyDescriptor` trap ([#192](https://github.com/illia-m-b/veils-js/issues/192)) ([265bc99](https://github.com/illia-m-b/veils-js/commit/265bc99e8b03c7f9b98df7df988bbe18889d88bd))
+
 ## [1.0.3](https://github.com/illia-m-b/veils-js/compare/veils-js-v1.0.2...veils-js-v1.0.3) (2026-09-15)
 
 
