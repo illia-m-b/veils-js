@@ -69,6 +69,31 @@ export const cloak = <T extends object>(
       return member.value(receiver);
     },
 
+    getOwnPropertyDescriptor(target: T, property: string | symbol): PropertyDescriptor | undefined {
+      const descriptor = Reflect.getOwnPropertyDescriptor(target, property);
+      if (!descriptor || !policy.verdict(property, Object.hasOwn(cache, property))) {
+        return descriptor;
+      }
+      const isAccessor = 'get' in descriptor || 'set' in descriptor;
+      if (descriptor.configurable === false && (isAccessor || descriptor.writable === false)) {
+        return descriptor;
+      }
+      const member: Member = collection.member(property);
+      if (isAccessor) {
+        if (!descriptor.get) {
+          return descriptor;
+        }
+        return {
+          ...descriptor,
+          get: () => member.veiled(() => cache[property as keyof T], target),
+        };
+      }
+      return {
+        ...descriptor,
+        value: member.veiled(() => cache[property as keyof T], target),
+      };
+    },
+
     set(target: T, property: string | symbol, newValue: unknown, receiver: unknown): boolean {
       const isMutated = Reflect.set(target, property, newValue, receiver);
       if (isMutated) {
