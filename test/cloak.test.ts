@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { expect, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 import type { Policy } from '../src/policy.js';
 import type { VeilCache } from '../src/veil-cache.js';
@@ -30,6 +30,20 @@ const twoTimesPolicy = (): Policy => {
     },
   };
 };
+
+/**
+ * A fake policy that served pre-defined verdict result and ignores mutation at
+ * all.
+ *
+ * @param isCached - The constant indicator whether it should serve cache or
+ *   not.
+ */
+const fkPolicy = (isCached: boolean): Policy => ({
+  onMutate: (): void => {
+    //
+  },
+  verdict: (): boolean => isCached,
+});
 
 test('respects custom policy decisions over multiple accesses', (): void => {
   interface User {
@@ -215,4 +229,105 @@ test('does not notify a policy when deletion fails', (): void => {
     isMutated,
     'Policy is always notified about mutation despite the actual result of the deletion',
   ).toBe(false);
+});
+
+describe('getOwnPropertyDescriptor trap', (): void => {
+  test('returns undefined for missing properties', (): void => {
+    const dude = {};
+    const covering = cloak(dude, {}, fkPolicy(true));
+    const descriptor = Object.getOwnPropertyDescriptor(covering, 'ghost');
+    expect(
+      descriptor,
+      'Engine returned a defined descriptor for a strictly non-existent object key',
+    ).toBeUndefined();
+  });
+
+  test('preserves original descriptor when policy denies cache', (): void => {
+    const original = 10;
+    const dude = { age: original };
+    const covering = cloak(dude, { age: Math.random() }, fkPolicy(false));
+    const descriptor = Object.getOwnPropertyDescriptor(covering, 'age');
+    expect(
+      descriptor?.value,
+      'Descriptor was maliciously veiled even though the caching policy forbade it',
+    ).toBe(original);
+  });
+
+  test('preserves original descriptor for non-configurable accessors', (): void => {
+    const original = 10;
+    const dude = {};
+    Object.defineProperty(dude, 'age', { get: () => original });
+    const covering = cloak(dude, { age: Math.random() }, fkPolicy(true));
+    const descriptor = Object.getOwnPropertyDescriptor(covering, 'age');
+    expect(
+      descriptor?.get?.(),
+      'The getter of a non-configurable accessor was mutated violating strict proxy invariants',
+    ).toBe(original);
+  });
+
+  test('preserves original descriptor for completely frozen data properties', (): void => {
+    const original = 10;
+    const dude = {};
+    Object.defineProperty(dude, 'age', { value: original });
+    const covering = cloak(dude, { age: Math.random() }, fkPolicy(true));
+    const descriptor = Object.getOwnPropertyDescriptor(covering, 'age');
+    expect(
+      descriptor?.value,
+      'The value of a frozen data property was mutated violating strict proxy invariants',
+    ).toBe(original);
+  });
+
+  test('preserves original descriptor for write-only properties', (): void => {
+    const dude = {
+      set age(_value: unknown) {
+        //
+      },
+    };
+    const covering = cloak(dude, { age: 20 }, fkPolicy(true));
+    const descriptor = Object.getOwnPropertyDescriptor(covering, 'age');
+    expect(
+      typeof descriptor?.get,
+      'A write-only property was implicitly and illegally converted into a readable accessor',
+    ).toBe('undefined');
+  });
+
+  test('veils value for non-configurable but writable data properties', (): void => {
+    const dude = {};
+    Object.defineProperty(dude, 'age', { value: 10, writable: true });
+    const cached = Math.random();
+    const covering = cloak(dude, { age: cached }, fkPolicy(true));
+    const descriptor = Object.getOwnPropertyDescriptor(covering, 'age');
+    expect(
+      descriptor?.value,
+      'A writable data property was ignored by the veiling mechanism despite being legally modifiable',
+    ).toBe(cached);
+  });
+
+  test('veils property for accessor', (): void => {
+    const dude = {
+      get age(): number {
+        return 10;
+      },
+    };
+    const cached = Math.random();
+    const cache: VeilCache<typeof dude> = { age: cached };
+    const covering = cloak(dude, cache, fkPolicy(true));
+    const descriptor = Object.getOwnPropertyDescriptor(covering, 'age');
+    expect(
+      descriptor?.get?.(),
+      'The active policy failed to veil the valid target descriptor for a getter',
+    ).toBe(cached);
+  });
+
+  test('veils regular property', (): void => {
+    const dude = { age: 10 };
+    const cached = Math.random();
+    const cache: VeilCache<typeof dude> = { age: cached };
+    const covering = cloak(dude, cache, fkPolicy(true));
+    const descriptor = Object.getOwnPropertyDescriptor(covering, 'age');
+    expect(
+      descriptor?.value,
+      'The active policy failed to veil the valid target descriptor for a regular property',
+    ).toBe(cached);
+  });
 });
