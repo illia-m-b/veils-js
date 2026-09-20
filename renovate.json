@@ -16,6 +16,13 @@
       "schedule": ["before 9am on monday"],
       "minimumReleaseAge": "3 days",
       "automerge": true
+    },
+    {
+      "description": "Batch all CI action digests, tool runtimes, and minor/patch updates into one weekly PR",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch", "digest", "pin"],
+      "groupName": "CI workflows (GitHub Actions)",
+      "schedule": ["before 9am on monday"]
     }
   ]
 }
