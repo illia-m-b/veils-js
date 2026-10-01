@@ -33,13 +33,12 @@ export const alterOut = <T extends object>(object: T, shifts: NoInfer<ShiftsOut<
   return new Proxy(object, {
     get(_target: T, property: string | symbol, receiver: unknown) {
       const member: Member = collection.member(property);
-      if (!Object.hasOwn(shifts, property)) {
-        return member.value(receiver);
-      }
-      return member.shiftedOut(
-        () => shifts[property as keyof T] as (..._arguments: unknown[]) => unknown,
-        receiver,
-      );
+      return Object.hasOwn(shifts, property)
+        ? member.shiftedOut(
+            () => shifts[property as keyof T] as (..._arguments: unknown[]) => unknown,
+            receiver,
+          )
+        : member.value(receiver);
     },
   });
 };
