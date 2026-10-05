@@ -85,11 +85,11 @@
     "runtime": {
       "name": "node",
       "onFail": "error",
-      "version": "22.x || 24.x || >=26.0.0"
+      "version": "v26.10.0"
     },
     "packageManager": {
       "name": "npm",
-      "version": ">=10.9.0",
+      "version": "12.2.0",
       "onFail": "error"
     }
   },
