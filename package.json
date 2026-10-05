@@ -57,26 +57,26 @@
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "@types/node": "22.20.4",
-    "@vitest/coverage-v8": "5.0.2",
+    "@types/node": "22.20.5",
+    "@vitest/coverage-v8": "5.0.3",
     "@yegor256/dogent": "0.13.3",
     "eslint": "10.11.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-import-resolver-typescript": "4.4.5",
     "eslint-plugin-import-x": "4.17.1",
     "eslint-plugin-perfectionist": "5.12.1",
-    "eslint-plugin-tsdoc": "0.5.3",
+    "eslint-plugin-tsdoc": "0.5.4",
     "eslint-plugin-unicorn": "76.0.0",
-    "globals": "17.12.0",
-    "lefthook": "2.1.14",
+    "globals": "17.13.0",
+    "lefthook": "2.1.16",
     "npm-package-json-lint": "11.0.0",
     "prettier": "3.9.9",
     "prettier-plugin-jsdoc": "1.8.1",
     "sort-package-json": "4.0.0",
     "tsup": "8.5.1",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.70.1",
-    "vitest": "5.0.2"
+    "typescript-eslint": "8.71.0",
+    "vitest": "5.0.3"
   },
   "engines": {
     "node": "22.x || 24.x || >=26.0.0"
