@@ -88,8 +88,8 @@
       "version": "22.x || 24.x || >=26.0.0"
     },
     "packageManager": {
-      "name": "npm",
-      "version": ">=10.9.0",
+      "name": "pnpm",
+      "version": "12.10.1",
       "onFail": "error"
     }
   },
@@ -100,6 +100,5 @@
     "unrs-resolver@1.12.2": true,
     "esbuild@0.27.7": true,
     "lefthook@2.1.16": true
-  },
-  "engine-strict": true
+  }
 }

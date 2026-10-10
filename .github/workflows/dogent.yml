@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-slim
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - run: npm exec --yes --ignore-scripts --no-audit --no-fund -- @yegor256/dogent@0.13.3 AGENTS.md
+      - run: npm exec --force --yes --ignore-scripts --no-audit --no-fund -- @yegor256/dogent@0.13.3 AGENTS.md
         env:
           OPENAI_BASE_URL: https://api.groq.com/openai/v1
           OPENAI_API_KEY: ${{ secrets.GROQ_API_KEY }}

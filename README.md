@@ -6,8 +6,8 @@ Dynamic Nature_
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
 [![We recommend WebStorm](https://gist.githack.com/illia-m-b/6a8d5e5f48910e79b532ddbcd9b39c01/raw/webstorm.svg)](https://www.jetbrains.com/webstorm/)
 
-[![npm version](https://img.shields.io/npm/v/veils-js)](https://www.npmjs.com/package/veils-js)
-[![CI](https://img.shields.io/github/actions/workflow/status/illia-m-b/veils-js/npm.yml?branch=main&label=CI)](https://github.com/illia-m-b/veils-js/actions/workflows/npm.yml)
+[![version](https://img.shields.io/npm/v/veils-js)](https://www.npmjs.com/package/veils-js)
+[![CI](https://img.shields.io/github/actions/workflow/status/illia-m-b/veils-js/pnpm.yml?branch=main&label=CI)](https://github.com/illia-m-b/veils-js/actions/workflows/pnpm.yml)
 [![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](https://github.com/illia-m-b/veils-js/blob/main/vitest.config.ts)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-0-brightgreen)](https://www.npmjs.com/package/veils-js?activeTab=dependencies)
 [![TypeScript](https://img.shields.io/badge/TypeScript-blue?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -35,6 +35,7 @@ combining the efficiency of a DTO with the elegance of OOP.
 
 ```bash
 npm install veils-js
+pnpm add veils-js
 ```
 
 ## Usage

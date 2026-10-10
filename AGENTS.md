@@ -22,14 +22,12 @@ Match continuous integration job names to file names.
 
 ## Commands
 
-Execute binary scripts using `npm exec --` command.
-Run `npm run lint:ts:fix` to analyze TypeScript code.
-Run `npm run format:code` to format source files.
-Run `npm run types:check` to verify TypeScript typings.
-Run `npm run test` to execute test suite with coverage.
-Run `npm run lint:pkg` to lint `package.json`.
-Run `npm run format:pkg` to sort `package.json` entries.
-Pin developer dependencies using `--save-exact` flag.
+Run `pnpm lint:ts:fix` to analyze TypeScript code.
+Run `pnpm format:code` to format source files.
+Run `pnpm types:check` to verify TypeScript typings.
+Run `pnpm test` to execute test suite with coverage.
+Run `pnpm lint:pkg` to lint `package.json`.
+Run `pnpm format:pkg` to sort `package.json` entries.
 
 ## Testing
 
