@@ -85,7 +85,7 @@
     "runtime": {
       "name": "node",
       "onFail": "error",
-      "version": "22.x || 24.x || >=26.0.0"
+      "version": "v26.11.1"
     },
     "packageManager": {
       "name": "pnpm",
