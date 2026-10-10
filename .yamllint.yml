@@ -1,8 +1,5 @@
 # SPDX-FileCopyrightText: Copyright (c) 2026 Illia Brashkin
 # SPDX-License-Identifier: MIT
-
-node_modules/
-dist/
-coverage/
-CHANGELOG.md
-pnpm-lock.yaml
+---
+extends: default
+ignore-from-file: [.gitignore, .yamlignore]

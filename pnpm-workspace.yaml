@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Illia Brashkin
+# SPDX-License-Identifier: MIT
+---
+blockExoticSubdeps: true
+trustPolicy: no-downgrade
+minimumReleaseAge: 1440
+nodeLinker: isolated
+shamefullyHoist: false
+saveExact: true
+overrides:
+  chokidar: 5.0.0
+  semver: 7.8.5
+  undici-types: 8.11.2
+strictPeerDependencies: true
+autoInstallPeers: true
+allowBuilds:
+  esbuild: true
+  lefthook: true
+  unrs-resolver: true

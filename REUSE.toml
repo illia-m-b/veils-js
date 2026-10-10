@@ -7,7 +7,10 @@ path = [
     "**.json",
     "**.md",
     "**.txt",
-    ".prettierrc"
+    "pnpm-lock.yaml",
+    ".prettierrc",
+    ".gitignore",
+    ".yamlignore",
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "Copyright (c) 2026 Illia Brashkin"

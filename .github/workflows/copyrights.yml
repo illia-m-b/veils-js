@@ -19,3 +19,10 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: yegor256/copyrights-action@597733b4b433341822e601cbe3316fd45031fec8 # 0.0.12
+        with:
+          ignore: >-
+            pnpm-lock.yaml
+            coverage/**
+            dist/**
+            node_modules/**
+            .git/**

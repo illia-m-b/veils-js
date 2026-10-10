@@ -43,17 +43,14 @@ committed to keeping it that way.
 
 ### `devDependencies` are Out of Scope
 
-Vulnerabilities found in our `devDependencies` (e.g., via `npm audit`) are **out
-of scope** for this security policy. These tools (like `esbuild`, `eslint`,
-`vitest`, etc.) are used exclusively during local development and CI/CD
-pipelines. They are **never** shipped or executed in the end-user's production
-environment.
+Vulnerabilities found in our `devDependencies` are **out of scope** for this
+security policy. These tools (like `eslint`, `vitest`, etc.) are used
+exclusively during local development and CI/CD pipelines. They are **never**
+shipped or executed in the end-user's production environment.
 
 If you find a vulnerability in one of our `devDependencies`, please report it
-directly to the maintainers of that specific package. (For instance, if
-`npm audit` shows a low severity vulnerability in `esbuild`, do not report it
-here). We use Renovate with strict policies to automatically keep our
-development tools up to date.
+directly to the maintainers of that specific package. We use Renovate with
+strict policies to automatically keep our development tools up to date.
 
 ## Proactive Security Measures
 

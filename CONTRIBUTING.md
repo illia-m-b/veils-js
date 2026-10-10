@@ -16,17 +16,17 @@ To set up your local development environment, follow these steps:
 1. Read these [guidelines][link-guidelines].
 2. [Fork][link-fork] this repository.
 3. Make sure that you have the current or a supported LTS version
-   of [Node][link-node] and [NPM][link-npm] ≥10.9.0 installed.
-4. Install dependencies from the [lockfile][link-lockfile]:
+   of [Node][link-node] and [PNPM][link-pnpm] installed.
+4. Install dependencies:
 
    ```bash
-   npm clean-install
+   pnpm install
    ```
 
-5. Install [Git hooks][link-lefthook]:
+5. Make sure that [Git hooks][link-lefthook] are installed:
 
    ```bash
-   npm exec -- lefthook install
+   pnpm lefthook install
    ```
 
 ## Pull Request Process
@@ -41,9 +41,8 @@ To set up your local development environment, follow these steps:
 [link-guidelines]: https://www.yegor256.com/2014/04/15/github-guidelines.html
 [link-issue]: https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/quickstart
 [link-lefthook]: https://lefthook.dev/
-[link-lockfile]: https://docs.npmjs.com/cli/v12/configuring-npm/package-lock-json
 [link-node]: https://nodejs.org/en/download
-[link-npm]: https://www.npmjs.com/
+[link-pnpm]: https://pnpm.io/
 [link-pr]: https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request
 [link-push]: https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository
 [link-status]: https://docs.github.com/en/pull-requests/reference/status-checks

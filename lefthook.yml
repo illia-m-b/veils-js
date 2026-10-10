@@ -7,35 +7,35 @@ pre-commit:
   commands:
     lint-ts-fix:
       glob: '**/*.{js,ts,cjs,mjs}'
-      run: npm exec -- eslint --fix --no-warn-ignored --concurrency=auto {staged_files}
+      run: pnpm eslint --fix --no-warn-ignored --concurrency=auto {staged_files}
       stage_fixed: true
     fix-pkg:
       glob: 'package.json'
-      run: npm pkg fix
+      run: pnpm pkg fix
       stage_fixed: true
     format-pkg:
       glob: 'package.json'
-      run: npm exec -- sort-package-json {staged_files}
+      run: pnpm sort-package-json {staged_files}
       stage_fixed: true
     format-code:
       glob: '**/*.{js,ts,cjs,mjs,json,jsonc,md,yml,yaml}'
-      run: npm exec -- prettier --write --ignore-unknown {staged_files}
+      run: pnpm prettier --write --ignore-unknown {staged_files}
       stage_fixed: true
     lint-agents:
       glob: 'AGENTS.md'
-      run: npm run lint:agents
+      run: pnpm lint:agents
 pre-push:
   parallel: true
   commands:
     lint-pkg:
-      run: npm run lint:pkg
+      run: pnpm lint:pkg
     format-pkg-check:
-      run: npm run format:pkg:check
+      run: pnpm format:pkg:check
     type-check:
-      run: npm run types:check
+      run: pnpm types:check
     format-code-check:
-      run: npm run format:code:check
+      run: pnpm format:code:check
     lint-ts:
-      run: npm run lint:ts
+      run: pnpm lint:ts
     test:
-      run: npm run test
+      run: pnpm test
