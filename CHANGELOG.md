@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.5](https://github.com/illia-m-b/veils-js/compare/veils-js-v1.0.4...veils-js-v1.0.5) (2026-10-10)
+
+
+### Build System
+
+* migrate from npm to pnpm ([#217](https://github.com/illia-m-b/veils-js/issues/217)) ([a58c67d](https://github.com/illia-m-b/veils-js/commit/a58c67de3fde948e6f28236db38f630c22c4fddd))
+
+
+### Continuous Integration
+
+* **release:** use github app token for release-please ([#211](https://github.com/illia-m-b/veils-js/issues/211)) ([0c55123](https://github.com/illia-m-b/veils-js/commit/0c551238138ed089b38594299b42c44facc428b5)), closes [#210](https://github.com/illia-m-b/veils-js/issues/210)
+
 ## [1.0.4](https://github.com/illia-m-b/veils-js/compare/veils-js-v1.0.3...veils-js-v1.0.4) (2026-09-17)
 
 
