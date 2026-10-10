@@ -99,7 +99,7 @@
   "allowScripts": {
     "unrs-resolver@1.12.2": true,
     "esbuild@0.27.7": true,
-    "lefthook@2.1.14": true
+    "lefthook@2.1.16": true
   },
   "engine-strict": true
 }
