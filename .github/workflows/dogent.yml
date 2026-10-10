@@ -7,9 +7,15 @@ name: dogent
   push:
     branches:
       - main
+    paths:
+      - 'AGENTS.md'
+      - '.github/workflows/dogent.yml'
   pull_request:
     branches:
       - main
+    paths:
+      - 'AGENTS.md'
+      - '.github/workflows/dogent.yml'
 permissions:
   contents: read
 jobs:
