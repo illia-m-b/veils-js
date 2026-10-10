@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.5](https://github.com/illia-m-b/veils-js/compare/veils-js-v1.0.4...veils-js-v1.0.5) (2026-10-10)
+
+
+### Continuous Integration
+
+* **release:** use github app token for release-please ([#211](https://github.com/illia-m-b/veils-js/issues/211)) ([0c55123](https://github.com/illia-m-b/veils-js/commit/0c551238138ed089b38594299b42c44facc428b5)), closes [#210](https://github.com/illia-m-b/veils-js/issues/210)
+
 ## [1.0.4](https://github.com/illia-m-b/veils-js/compare/veils-js-v1.0.3...veils-js-v1.0.4) (2026-09-17)
 
 
