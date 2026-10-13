@@ -95,6 +95,7 @@ export default [
         },
       ],
       'tsdoc/syntax': 'error',
+      'unicorn/no-asterisk-prefix-in-documentation-comments': 'off',
     },
     settings: {
       'import-x/resolver': {
