@@ -7,7 +7,7 @@ pre-commit:
   commands:
     lint-ts-fix:
       glob: '**/*.{js,ts,cjs,mjs}'
-      run: pnpm eslint --fix --no-warn-ignored --concurrency=auto {staged_files}
+      run: pnpm lint:ts:fix {staged_files}
       stage_fixed: true
     fix-pkg:
       glob: 'package.json'
@@ -36,6 +36,6 @@ pre-push:
     format-code-check:
       run: pnpm format:code:check
     lint-ts:
-      run: pnpm lint:ts
+      run: pnpm lint:ts:check
     test:
       run: pnpm test

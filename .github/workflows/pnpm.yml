@@ -30,7 +30,7 @@ jobs:
       - run: pnpm lint:pkg
       - run: pnpm format:code:check
       - run: pnpm types:check
-      - run: pnpm lint:ts
+      - run: pnpm lint:ts:check
   tests:
     needs:
       - pnpm

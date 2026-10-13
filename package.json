@@ -49,8 +49,9 @@
     "format:pkg:check": "sort-package-json --check",
     "lint:agents": "dogent --offline AGENTS.md",
     "lint:pkg": "npmPkgJsonLint --ignorePath=.gitignore --maxWarnings=0 .",
-    "lint:ts": "eslint --concurrency=auto --max-warnings=0 .",
-    "lint:ts:fix": "eslint --fix --concurrency=auto .",
+    "lint:ts": "eslint --cache --exit-on-fatal-error --no-warn-ignored --flag=unstable_native_nodejs_ts_config",
+    "lint:ts:check": "pnpm lint:ts --max-warnings=0",
+    "lint:ts:fix": "pnpm lint:ts --fix",
     "test": "vitest run --coverage",
     "test:watch": "vitest",
     "types:check": "tsc --noEmit"

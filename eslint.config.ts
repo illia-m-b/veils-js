@@ -3,17 +3,18 @@
  * SPDX-License-Identifier: MIT
  */
 
+import type { ConfigWithExtends } from 'typescript-eslint';
+
 import eslint from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
-import { defineConfig } from 'eslint/config';
-import importX from 'eslint-plugin-import-x';
-import perfectionist from 'eslint-plugin-perfectionist';
+import { flatConfigs as importX } from 'eslint-plugin-import-x';
+import { configs as perfectionist } from 'eslint-plugin-perfectionist';
+import tsdoc from 'eslint-plugin-tsdoc';
 import unicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
-import tsdoc from 'eslint-plugin-tsdoc';
-import tseslint from 'typescript-eslint';
+import { configs as tseslint } from 'typescript-eslint';
 
-export default defineConfig([
+export default [
   {
     ignores: [
       '.github/**',
@@ -26,12 +27,12 @@ export default defineConfig([
     ],
   },
   eslint.configs.recommended,
-  ...tseslint.configs.strictTypeChecked,
-  ...tseslint.configs.stylisticTypeChecked,
+  ...tseslint.strictTypeChecked,
+  ...tseslint.stylisticTypeChecked,
   unicorn.configs.recommended,
-  importX.flatConfigs.recommended,
-  importX.flatConfigs.typescript,
-  perfectionist.configs['recommended-natural'],
+  importX.recommended,
+  importX.typescript,
+  perfectionist['recommended-natural'],
   {
     languageOptions: {
       globals: {
@@ -50,6 +51,7 @@ export default defineConfig([
     },
     rules: {
       '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }],
+      '@typescript-eslint/no-dynamic-delete': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -64,7 +66,6 @@ export default defineConfig([
         },
       ],
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
-      'tsdoc/syntax': 'error',
       'import-x/no-cycle': 'error',
       'no-console': 'error',
       'no-extend-native': 'error',
@@ -72,28 +73,28 @@ export default defineConfig([
       'no-restricted-imports': [
         'error',
         {
+          paths: [
+            { message: 'Do not import Node.js built-ins.', name: 'fs' },
+            { message: 'Do not import Node.js built-ins.', name: 'path' },
+            { message: 'Do not import Node.js built-ins.', name: 'crypto' },
+          ],
           patterns: [
             {
               group: ['node:*'],
               message: 'veils-js must remain isomorphic. Do not import Node.js built-ins.',
             },
           ],
-          paths: [
-            { name: 'fs', message: 'Do not import Node.js built-ins.' },
-            { name: 'path', message: 'Do not import Node.js built-ins.' },
-            { name: 'crypto', message: 'Do not import Node.js built-ins.' },
-          ],
         },
       ],
-      '@typescript-eslint/no-dynamic-delete': 'error',
       'no-restricted-syntax': [
         'error',
         {
-          selector: 'ForInStatement',
           message:
             'for...in loops over Proxies trigger an avalanche of internal traps (ownKeys, getOwnPropertyDescriptor) and destroy V8 optimization. Use Reflect.ownKeys() or Object.keys() instead.',
+          selector: 'ForInStatement',
         },
       ],
+      'tsdoc/syntax': 'error',
     },
     settings: {
       'import-x/resolver': {
@@ -105,4 +106,4 @@ export default defineConfig([
     },
   },
   eslintConfigPrettier,
-]);
+] satisfies ConfigWithExtends[];
