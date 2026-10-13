@@ -67,7 +67,7 @@
     "eslint-plugin-import-x": "4.17.1",
     "eslint-plugin-perfectionist": "5.12.1",
     "eslint-plugin-tsdoc": "0.5.4",
-    "eslint-plugin-unicorn": "76.0.0",
+    "eslint-plugin-unicorn": "77.0.0",
     "globals": "17.13.0",
     "lefthook": "2.2.1",
     "npm-package-json-lint": "11.0.0",
