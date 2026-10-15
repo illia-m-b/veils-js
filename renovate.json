@@ -4,6 +4,7 @@
     "config:best-practices",
     ":semanticCommitTypeAll(chore)",
     ":pinAllExceptPeerDependencies",
+    ":preserveSemverRanges",
     ":approveMajorUpdates",
     ":timezone(Europe/Kyiv)"
   ],
