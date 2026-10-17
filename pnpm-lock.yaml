@@ -165,7 +165,7 @@ settings:
 overrides:
   chokidar: 5.0.0
   semver: 7.8.5
-  undici-types: 8.11.2
+  undici-types: 8.12.1
 
 importers:
 
@@ -2342,8 +2342,8 @@ packages:
   ufo@1.6.4:
     resolution: {integrity: sha512-JFNbkD1Svwe0KvGi8GOeLcP4kAWQ609twvCdcHxq1oSL8svv39ZuSvajcD8B+5D0eL4+s1Is2D/O6KN3qcTeRA==}
 
-  undici-types@8.11.2:
-    resolution: {integrity: sha512-iMVNmWZ0leK/goS6eXMizSzmm9CDWtyphwbaCms3DNLqRxDL+mMoNVcZMTyyVgXP0N+Z8neAMzDoUOUJL8veKg==}
+  undici-types@8.12.1:
+    resolution: {integrity: sha512-nCiEcIx87oMw9u3Yzj2DuRBzv6p0e7akhy4HUPtpBiVWmAY3o6Phznst8QhmY1oLMttLgJ2tlAvsKuzCgBSoAw==}
 
   unist-util-stringify-position@4.0.0:
     resolution: {integrity: sha512-0ASV06AAoKCDkS2+xw5RXJywruurpbC4JZSm7nr7MOt1ojAzvyyaO+UxZf18j8FCF6kmzCZKcAgN/yu2gm2XgQ==}
@@ -2874,7 +2874,7 @@ snapshots:
 
   '@types/node@22.20.5':
     dependencies:
-      undici-types: 8.11.2
+      undici-types: 8.12.1
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -4443,7 +4443,7 @@ snapshots:
 
   ufo@1.6.4: {}
 
-  undici-types@8.11.2: {}
+  undici-types@8.12.1: {}
 
   unist-util-stringify-position@4.0.0:
     dependencies:
