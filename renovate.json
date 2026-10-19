@@ -10,6 +10,10 @@
   ],
   "packageRules": [
     {
+      "matchPackageNames": ["lefthook"],
+      "allowedVersions": "!/^2\\.2\\.2$/"
+    },
+    {
       "description": "Grouping and automerge of patch/minor devDependencies with a 3-day quarantine",
       "matchDepTypes": ["devDependencies"],
       "matchUpdateTypes": ["patch", "minor"],
