@@ -22,8 +22,13 @@ Match continuous integration job names to file names.
 
 ## Commands
 
-Run `pnpm lint:ts:fix` to analyze TypeScript code.
-Run `pnpm format:code` to format source files.
+Run `pnpm lint:ts:fix [files...]` to analyze TypeScript code.
+Leave file arguments empty to lint entire project.
+
+Run `pnpm format:code:fix <files...>` to format source files.
+Always provide file arguments.
+Pass `.` to format entire project (e.g., `pnpm format:code:fix .`).
+
 Run `pnpm types:check` to verify TypeScript typings.
 Run `pnpm test` to execute test suite with coverage.
 Run `pnpm lint:pkg` to lint `package.json`.
