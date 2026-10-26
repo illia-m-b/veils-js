@@ -61,11 +61,11 @@
     "@types/node": "22.20.5",
     "@vitest/coverage-v8": "5.0.5",
     "@yegor256/dogent": "0.13.3",
-    "eslint": "10.12.0",
+    "eslint": "10.13.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-import-resolver-typescript": "4.4.5",
     "eslint-plugin-import-x": "4.17.1",
-    "eslint-plugin-perfectionist": "5.12.1",
+    "eslint-plugin-perfectionist": "5.13.0",
     "eslint-plugin-tsdoc": "0.5.4",
     "eslint-plugin-unicorn": "77.0.0",
     "globals": "17.13.0",
@@ -76,7 +76,7 @@
     "sort-package-json": "4.1.0",
     "tsup": "9.0.0",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.71.2",
+    "typescript-eslint": "8.72.0",
     "vitest": "5.0.5"
   },
   "engines": {
