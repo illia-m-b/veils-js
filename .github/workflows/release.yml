@@ -46,6 +46,6 @@ jobs:
         with:
           cache: true
           require-lockfile: true
-          runtime: node@24.22.1
+          runtime: node@24.22.2
       - run: pnpm build
       - run: pnpm publish --no-git-checks
