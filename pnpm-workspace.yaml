@@ -1,7 +1,3 @@
-# SPDX-FileCopyrightText: Copyright (c) 2026 Illia Brashkin
-# SPDX-License-Identifier: MIT
----
-# yamllint disable rule:line-length
 blockExoticSubdeps: true
 trustPolicy: no-downgrade
 minimumReleaseAge: 1440
@@ -9,7 +5,7 @@ nodeLinker: isolated
 shamefullyHoist: false
 saveExact: true
 overrides:
-  undici-types: 8.12.3
+  undici-types: 8.12.4
 strictPeerDependencies: true
 autoInstallPeers: true
 allowBuilds:
