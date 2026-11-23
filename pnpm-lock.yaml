@@ -172,7 +172,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  undici-types: 8.12.4
+  undici-types: 8.13.0
 
 importers:
 
@@ -2374,8 +2374,8 @@ packages:
   ufo@1.6.4:
     resolution: {integrity: sha512-JFNbkD1Svwe0KvGi8GOeLcP4kAWQ609twvCdcHxq1oSL8svv39ZuSvajcD8B+5D0eL4+s1Is2D/O6KN3qcTeRA==}
 
-  undici-types@8.12.4:
-    resolution: {integrity: sha512-GNCQH3MbVGB8OAVAoTiLH8pu4wx5Ni3DWKpnBzGj3WDsi8EwmK0aOVBooNEt+g5YL1eHPxcS9XUTouwFU6j1kQ==}
+  undici-types@8.13.0:
+    resolution: {integrity: sha512-oE6ybuLS2aUIbVCR2zAjiidK4cFOf1FqSWBekci5p6baThYI4HffutuV+d1Y5jLLAmZfE+VhTwTBDoYGWRkWeA==}
 
   unist-util-stringify-position@4.0.0:
     resolution: {integrity: sha512-0ASV06AAoKCDkS2+xw5RXJywruurpbC4JZSm7nr7MOt1ojAzvyyaO+UxZf18j8FCF6kmzCZKcAgN/yu2gm2XgQ==}
@@ -2915,7 +2915,7 @@ snapshots:
 
   '@types/node@22.20.5':
     dependencies:
-      undici-types: 8.12.4
+      undici-types: 8.13.0
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -4501,7 +4501,7 @@ snapshots:
 
   ufo@1.6.4: {}
 
-  undici-types@8.12.4: {}
+  undici-types@8.13.0: {}
 
   unist-util-stringify-position@4.0.0:
     dependencies:
