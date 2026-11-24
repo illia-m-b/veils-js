@@ -9,7 +9,7 @@ nodeLinker: isolated
 shamefullyHoist: false
 saveExact: true
 overrides:
-  undici-types: 8.13.0
+  undici-types: 8.13.1
 strictPeerDependencies: true
 autoInstallPeers: true
 allowBuilds:
